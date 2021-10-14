@@ -21,8 +21,8 @@ Escena::Escena()
     
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/peon.ply",11,false,false);
-   //ant=new ObjPLY("plys/big_dodge.ply");
+   peon= new ObjRevolucion("plys/beethoven.ply",50,true,true);
+   ant=new ObjPLY("plys/big_dodge.ply");
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -165,7 +165,7 @@ void Escena::dibujar()
     }
 
     //tetraedro->draw();
-    glScalef(50.0,50.0,50.0);
+    glScalef(10.0,10.0,10.0);
     peon->draw(1,1);
     //ant->draw(1,1);
     glutSwapBuffers();
