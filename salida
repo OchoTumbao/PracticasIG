@@ -1,0 +1,11 @@
+touch tetraedro.cc escena.cc practicas.cc ejes.cc cubo.cc malla.cc 
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX tetraedro.cc
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX escena.cc
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX practicas.cc
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX ejes.cc
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX cubo.cc
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX malla.cc
+g++ -o pracs_exe  tetraedro.o escena.o practicas.o ejes.o cubo.o malla.o -ljpeg  -lGLEW -lGLU -lglut -lGL
+Enlazando para: Linux
+./pracs_exe
+Tecla pulsada: ''
