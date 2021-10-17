@@ -7,10 +7,11 @@
 #include "tetraedro.h"
 #include "objply.h"
 #include "objrevolucion.h"
+#include "cilindro.h"
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
-typedef enum{CUBO,TETRAEDRO,NO} objeto_a_mostrar;
+typedef enum{CUBO,TETRAEDRO,BUSTO,COCHE,HORMIGA,PEON,LATA,NO} objeto_a_mostrar;
 class Escena
 {
 
@@ -43,6 +44,9 @@ class Escena
    Tetraedro * tetraedro= nullptr ; // es importante inicializarlo a 'nullptr'
    ObjRevolucion * peon= nullptr;
    ObjPLY * ant=nullptr;
+   ObjPLY * coche=nullptr;
+   ObjPLY * busto=nullptr;
+   Cilindro * cilindro=nullptr;
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
    int flag_points=0;

@@ -21,8 +21,11 @@ Escena::Escena()
     
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/beethoven.ply",50,true,true);
-   ant=new ObjPLY("plys/big_dodge.ply");
+   peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
+   ant=new ObjPLY("plys/ant.ply");
+   coche=new ObjPLY("plys/big_dodge.ply");
+   busto=new ObjPLY("plys/beethoven.ply");
+   cilindro=new Cilindro(10,10,10,5,1);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -165,9 +168,9 @@ void Escena::dibujar()
     }
 
     //tetraedro->draw();
-    glScalef(10.0,10.0,10.0);
-    peon->draw(1,1);
-    //ant->draw(1,1);
+    glScalef(50.0,50.0,50.0);
+    //peon->draw(1,0);
+    cilindro->draw(1,0);
     glutSwapBuffers();
     
     // COMPLETAR
