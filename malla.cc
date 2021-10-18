@@ -113,10 +113,6 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
    glBindBuffer(GL_ARRAY_BUFFER,0);
    glEnableClientState(GL_VERTEX_ARRAY);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbof);
-   printf("Ojo que voy a dibujar tengo %d caras\n",f.size());
-   for(int i=0;i<f.size();i++){
-      printf("Cara %d: [%d,%d,%d]\n",i,f.at(i)(0),f.at(i)(1),f.at(i)(2));
-   }
    glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,0);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
    glDisableClientState(GL_VERTEX_ARRAY);

@@ -169,8 +169,8 @@ void Escena::dibujar()
 
     //tetraedro->draw();
     glScalef(50.0,50.0,50.0);
-    //peon->draw(1,0);
-    cilindro->draw(1,0);
+    peon->draw(1,0);
+    //cilindro->draw(1,0);
     glutSwapBuffers();
     
     // COMPLETAR

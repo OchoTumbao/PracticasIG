@@ -85,8 +85,7 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_insta
       }
    // completar ......(práctica 2)
 }
-   printf("Ya he construido la malla, tengo: %d puntos y %d caras\n", v.size(),f.size());
-   printf("Objeto bien creado\n");
+
 
 }
     
@@ -94,7 +93,7 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_insta
 void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup,bool tapa_inf) {
    int M=perfil_original.size();
    int N=num_instancias;
-   printf ("M: %d, F: %d\n",M,N);
+
    switch (eje)
    {
    case 0:
@@ -108,7 +107,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       for(int i=0;i<N;i++){
          for(int j=0;j<M;j++){
             v.push_back(RotaEjeY(perfil_original.at(j),(2*M_PI*i)/num_instancias));
-            printf("i: %d,j: %d [%f,%f,%f]\n",i,j,v.at(v.size()-1)(0),v.at(v.size()-1)(1),v.at(v.size()-1)(2));
+ 
          }
       }
    break;
@@ -166,7 +165,7 @@ if(tapa_sup){
          }
          break;
        }
-       printf("x:%f,y:%f,z:%f\n",polo_norte(0),polo_norte(1),polo_norte(2));
+
        
        for(int i=0;i<num_instancias;i++){
           Tupla3i tr(indice,(int)(perfil_original.size()*i)-1,(int)(perfil_original.size()*(i+1))-1);
