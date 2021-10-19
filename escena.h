@@ -11,7 +11,7 @@
 
 typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
-typedef enum{CUBO,TETRAEDRO,BUSTO,COCHE,HORMIGA,PEON,LATA,NO} objeto_a_mostrar;
+typedef enum{CUBO,TETRAEDRO,BUSTO,P2,NO} objeto_a_mostrar;
 class Escena
 {
 
@@ -47,6 +47,8 @@ class Escena
    ObjPLY * coche=nullptr;
    ObjPLY * busto=nullptr;
    Cilindro * cilindro=nullptr;
+   Cilindro * cilindrox=nullptr;
+   Cilindro * cilindroz=nullptr;
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
    int flag_points=0;

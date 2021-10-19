@@ -18,7 +18,7 @@ Tupla3f RotaEjeY(Tupla3f punto, float radianes){
    return Tupla3f(resx,resy,resz);
 }
 
-Tupla3f RotaEj0(Tupla3f punto, float radianes){
+Tupla3f RotaEjeX(Tupla3f punto, float radianes){
    float resx,resy,resz;
    resx=punto(0);
    resy=punto(1)*cos(radianes)+punto(2)*-sin(radianes);
@@ -26,7 +26,7 @@ Tupla3f RotaEj0(Tupla3f punto, float radianes){
    return Tupla3f(resx,resy,resz);
 }
 
-Tupla3f RotaEj2(Tupla3f punto, float radianes){
+Tupla3f RotaEjeZ(Tupla3f punto, float radianes){
    float resx,resy,resz;
    resx=punto(0)*cos(radianes)+punto(1)*-sin(radianes);
    resy=punto(0)*sin(radianes)+punto(1)*cos(radianes);
@@ -99,7 +99,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    case 0:
       for(int i=0;i<N;i++){
          for(int j=0;j<M;j++){
-            v.push_back(RotaEj0(perfil_original.at(j),(2*M_PI*i)/num_instancias));
+            v.push_back(RotaEjeX(perfil_original.at(j),(2*M_PI*i)/num_instancias));
          }
       }
    break;
@@ -107,6 +107,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
       for(int i=0;i<N;i++){
          for(int j=0;j<M;j++){
             v.push_back(RotaEjeY(perfil_original.at(j),(2*M_PI*i)/num_instancias));
+            printf("%d,%d,[%f,%f,%f]\n",i,j,v.at(v.size()-1)(0),v.at(v.size()-1)(1),v.at(v.size()-1)(2));
  
          }
       }
@@ -114,7 +115,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    case 2:
       for(int i=0;i<N;i++){
          for(int j=0;j<M;j++){
-            v.push_back(RotaEj2(perfil_original.at(j),(2*M_PI*i)/num_instancias));
+            v.push_back(RotaEjeZ(perfil_original.at(j),(2*M_PI*i)/num_instancias));
          }
       }
    break;
@@ -139,8 +140,8 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
    }
 
 if(tapa_sup){
-       Tupla3f polo_norte=v.at(num_instancias+1);
-       int indice=num_instancias+1;
+       Tupla3f polo_norte=v.at(N-1);
+       int indice=N-1;
        switch (eje)
        {
        case 0:
@@ -166,16 +167,20 @@ if(tapa_sup){
          break;
        }
 
-       
-       for(int i=0;i<num_instancias;i++){
-          Tupla3i tr(indice,(int)(perfil_original.size()*i)-1,(int)(perfil_original.size()*(i+1))-1);
+       printf("a%d [%f,%f,%f]\n",indice,v.at(indice)(0),v.at(indice)(1),v.at(indice)(2));
+       for(int i=0;i<N-1;i++){
+          int last_instance=(M*(i+1)-1);
+          int next_instance=(M*(i+2)-1);
+          Tupla3i tr(indice,last_instance,next_instance);
           f.push_back(tr);
        }
+       Tupla3i tr(indice,M*N-1,M-1);
+       f.push_back(tr);
 
     }
     if(tapa_inf){
-       Tupla3f polo_sur=v.at(num_instancias);
-       int indice=num_instancias;
+       Tupla3f polo_sur=v.at(N);
+       int indice=N;
        switch (eje)
        {
        case 0:
@@ -197,13 +202,18 @@ if(tapa_sup){
             polo_sur=Tupla3f(0,0,polo_sur(2));
             v.push_back(polo_sur);
             indice=v.size()-1;
+
          }
          break;
        }
-       for(int i=0;i<num_instancias;i++){
-          Tupla3i tr(indice,(int)(perfil_original.size()*i),(int)(perfil_original.size()*(i-1)));
+       for(int i=0;i<N-1;i++){
+          int last_instance=(M*i);
+          int next_instance=(M*(i+1));
+          Tupla3i tr(indice,next_instance,last_instance);
           f.push_back(tr);
        }
+       Tupla3i tr(indice,0,M*(N-1));
+       f.push_back(tr);
 
     }
 

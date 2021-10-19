@@ -26,6 +26,8 @@ Escena::Escena()
    coche=new ObjPLY("plys/big_dodge.ply");
    busto=new ObjPLY("plys/beethoven.ply");
    cilindro=new Cilindro(10,10,10,5,1);
+   cilindrox=new Cilindro(10,10,10,5,0);
+   cilindroz=new Cilindro(10,10,10,5,2);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -165,11 +167,101 @@ void Escena::dibujar()
          break;
        }
        break;
+       case P2:{
+          if(flag_fill==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glScalef(50.0,50.0,50.0);
+             peon->draw(1,0);
+             change_observer();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(1,0);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             cilindro->draw(1,0);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindrox->draw(1,0);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cilindroz->draw(1,0);
+
+             change_observer();
+          }
+          if(flag_lines==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+             glScalef(50.0,50.0,50.0);
+             peon->draw(1,1);
+             change_observer();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(1,1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             cilindro->draw(1,1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindrox->draw(1,1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cilindroz->draw(1,1);
+
+             change_observer();
+          }
+          if(flag_points==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+             glScalef(50.0,50.0,50.0);
+             peon->draw(1,2);
+             change_observer();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(1,2);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             cilindro->draw(1,2);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindrox->draw(1,2);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cilindroz->draw(1,2);
+             change_observer();
+          }
+          if(flag_chess==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glScalef(50.0,50.0,50.0);
+             peon->drawAjedrez(1);
+             change_observer();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->drawAjedrez(1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             cilindro->drawAjedrez(1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindrox->drawAjedrez(1);
+             change_observer();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cilindroz->drawAjedrez(1);
+             change_observer();
+          }
+       }
     }
 
     //tetraedro->draw();
-    glScalef(50.0,50.0,50.0);
-    peon->draw(1,0);
     //cilindro->draw(1,0);
     glutSwapBuffers();
     
@@ -252,6 +344,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_points=0;
                cout << "Visualizacion por puntos desactivada " << endl;
             }
+         }
+         if(modoMenu==SELOBJETO){
+            //ACTIVAR VISUALIZACION PUNTOS
+            dibujo=P2;
+            cout << "Activando Modo P2" << endl;
          }
          break;
        case 'L':
