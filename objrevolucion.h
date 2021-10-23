@@ -20,18 +20,25 @@
 // *****************************************************************************
 
 // *****************************************************************************
-// Cubo con centro en el origen y lado unidad por defecto
-// (tiene 9 vertices y 6 caras)
 class ObjRevolucion : public Malla3D
 {
    public:
        ObjRevolucion();
        int eje=1;
-   ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_sup=true, bool tapa_inf=true,int pivote=1) ;
-   ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_instancias, bool tapa_sup=true, bool tapa_inf=true,int pivote=1) ;
+       bool tapa_sup=true;
+       bool tapa_inf=true;
+   ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
+   ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_instancias, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
+   void actualizatapa(int tapa);
+
 
 private:
-    void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias,bool tapa_sup=true,bool tapa_inf=true);
+    int caras_notapas=0;
+    void crearMalla(std::vector<Tupla3f> perfil_original, int num_instancias);
+    std::vector<Tupla3i> caras_tapa_sup;
+    std::vector<Tupla3i> caras_tapa_inf;
+    std::vector<Tupla3i>::const_iterator tapa_infit=f.cend()-(caras_tapa_inf.size()+caras_tapa_sup.size());
+    std::vector<Tupla3i>::const_iterator tapa_supit=f.cend()-caras_tapa_inf.size();
 
 } ;
 

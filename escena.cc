@@ -21,13 +21,13 @@ Escena::Escena()
     
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
+   peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
    ant=new ObjPLY("plys/ant.ply");
    coche=new ObjPLY("plys/big_dodge.ply");
-   busto=new ObjPLY("plys/beethoven.ply");
-   cilindro=new Cilindro(10,10,10,5,1);
-   cilindrox=new Cilindro(10,10,10,5,0);
-   cilindroz=new Cilindro(10,10,10,5,2);
+   //busto=new ObjPLY("plys/beethoven.ply");
+   cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
+   cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
+   esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -69,202 +69,238 @@ void Escena::dibujar()
 	change_observer();
    glPointSize(10);
     ejes.draw();
-    switch (dibujo)
-    {
-    case CUBO:
-       switch (modo_d)
-       {
-         case INMEDIATO:
-            if(flag_fill==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               cubo->draw(0,0);
-            }
-            if(flag_lines==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-               glEnable (GL_POLYGON_OFFSET_LINE);
-               glPolygonOffset(-15.0,5.0);
-               cubo->draw(0,1);
-               glDisable(GL_POLYGON_OFFSET_LINE);
-            }
-            if(flag_points==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-               cubo->draw(0,2);
-            }
-            if(flag_chess==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               cubo->drawAjedrez(0);
-            }
-
-          break;
-         case DIFERIDO:
-            if(flag_fill==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               cubo->draw(1,0);
-            }
-            if(flag_lines==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-               glEnable (GL_POLYGON_OFFSET_LINE);
-               glPolygonOffset(-15.0,5.0);
-               cubo->draw(1,1);
-               glDisable(GL_POLYGON_OFFSET_LINE);
-            }
-            if(flag_points==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-               cubo->draw(1,2);
-            }
-            if(flag_chess==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               cubo->drawAjedrez(1);
-            }
-
-         break;
-       }
-       break;
-    case TETRAEDRO:
-       switch (modo_d)
-       {
-         case INMEDIATO:
-            if(flag_fill==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               tetraedro->draw(0,0);
-            }
-            if(flag_lines==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-               glEnable (GL_POLYGON_OFFSET_LINE);
-               glPolygonOffset(-15.0,5.0);
-               tetraedro->draw(0,1);
-            }
-            if(flag_points==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-               tetraedro->draw(0,2);
-            }
-            if(flag_chess==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               tetraedro->drawAjedrez(0);
-            }
-
-          break;
-         case DIFERIDO:
-            if(flag_fill==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               tetraedro->draw(1,0);
-            }
-            if(flag_lines==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-               glEnable (GL_POLYGON_OFFSET_LINE);
-               glPolygonOffset(-15.0,5.0);
-               tetraedro->draw(1,1);
-            }
-            if(flag_points==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-               tetraedro->draw(1,2);
-            }
-            if(flag_chess==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-               tetraedro->drawAjedrez(1);
-            }
-
-         break;
-       }
-       break;
-       case P2:{
+   switch(modo_d){
+      case DIFERIDO:
           if(flag_fill==1){
+             glPushMatrix();
              glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
              glScalef(50.0,50.0,50.0);
              peon->draw(1,0);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(2.0,2.0,2.0);
              glTranslatef(30.0,0.0,0.0);
              ant->draw(1,0);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(-10.0,0.0,0.0);
-             cilindro->draw(1,0);
-             change_observer();
+             esfera->draw(1,0);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,25.0);
-             cilindrox->draw(1,0);
-             change_observer();
+             cilindro->draw(1,0);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,-15.0);
-             cilindroz->draw(1,0);
+             cono->draw(1,0);
+             glPopMatrix();
 
-             change_observer();
           }
           if(flag_lines==1){
              glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+             glPushMatrix();
              glScalef(50.0,50.0,50.0);
              peon->draw(1,1);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(2.0,2.0,2.0);
              glTranslatef(30.0,0.0,0.0);
              ant->draw(1,1);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(-10.0,0.0,0.0);
-             cilindro->draw(1,1);
-             change_observer();
+             esfera->draw(1,1);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,25.0);
-             cilindrox->draw(1,1);
-             change_observer();
+             cilindro->draw(1,1);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,-15.0);
-             cilindroz->draw(1,1);
+             cono->draw(1,1);
+             glPopMatrix();
 
              change_observer();
           }
           if(flag_points==1){
+             glPushMatrix();
              glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
              glScalef(50.0,50.0,50.0);
              peon->draw(1,2);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(2.0,2.0,2.0);
              glTranslatef(30.0,0.0,0.0);
              ant->draw(1,2);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(-10.0,0.0,0.0);
-             cilindro->draw(1,2);
-             change_observer();
+             esfera->draw(1,2);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,25.0);
-             cilindrox->draw(1,2);
-             change_observer();
+             cilindro->draw(1,2);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,-15.0);
-             cilindroz->draw(1,2);
-             change_observer();
+             cono->draw(1,2);
+             glPopMatrix();
+             
           }
           if(flag_chess==1){
              glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glPushMatrix();
              glScalef(50.0,50.0,50.0);
              peon->drawAjedrez(1);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(2.0,2.0,2.0);
              glTranslatef(30.0,0.0,0.0);
              ant->drawAjedrez(1);
-             change_observer();
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(-10.0,0.0,0.0);
-             cilindro->drawAjedrez(1);
-             change_observer();
+             esfera->drawAjedrez(1);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,25.0);
-             cilindrox->drawAjedrez(1);
-             change_observer();
+             cilindro->drawAjedrez(1);
+             glPopMatrix();
+             glPushMatrix();
              glScalef(10.0,10.0,10.0);
              glTranslatef(0.0,0.0,-15.0);
-             cilindroz->drawAjedrez(1);
-             change_observer();
+             cono->drawAjedrez(1);
+             glPopMatrix();
+             
           }
-       }
-    }
+      break;
+      case INMEDIATO:
+          if(flag_fill==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glPushMatrix();
+             glScalef(50.0,50.0,50.0);
+             peon->draw(0,0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(0,0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->draw(0,0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->draw(0,0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->draw(1,0);
+             glPopMatrix();
 
-    //tetraedro->draw();
-    //cilindro->draw(1,0);
+          }
+          if(flag_lines==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+             glPushMatrix();
+             glScalef(50.0,50.0,50.0);
+             peon->draw(0,1);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(0,1);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->draw(0,1);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->draw(0,1);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->draw(0,1);
+             glPopMatrix();
+
+             
+          }
+          if(flag_points==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+             glScalef(50.0,50.0,50.0);
+             peon->draw(0,2);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(0,2);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->draw(0,2);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->draw(0,2);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->draw(0,2);
+             glPopMatrix();
+          }
+          if(flag_chess==1){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glPushMatrix();
+             glScalef(50.0,50.0,50.0);
+             peon->drawAjedrez(0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->drawAjedrez(0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->drawAjedrez(0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->drawAjedrez(0);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->drawAjedrez(0);
+             glPopMatrix();
+             
+          }
+      break;
+   }
+
     glutSwapBuffers();
-    
     // COMPLETAR
     //   Dibujar los diferentes elementos de la escena
     // Habrá que tener en esta primera práctica una variable que indique qué objeto se ha de visualizar
@@ -297,13 +333,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             salir=true ;
          }
          break ;
-      case 'O' :
-         // ESTAMOS EN MODO SELECCION DE OBJETO
-         if(modoMenu==NADA){
-         modoMenu=SELOBJETO; 
-         printf("Opciones disponibles: \n 'C' : Cubo; \n 'T' : Tetraedro ");}
-         
-         break ;
         case 'V' :
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          if(modoMenu==NADA){
@@ -321,19 +350,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          }
          break ;
          // COMPLETAR con los diferentes opciones de teclado
-       case 'C':
-         if(modoMenu==SELOBJETO){
-            //MOSTRAR OCULTAR CUBO
-            dibujo=CUBO;
-
-            cout << "Dibujando Cubo" << endl;
-         }
          break;
        case 'T':
-         if(modoMenu==SELOBJETO){
-            dibujo=TETRAEDRO;
-            cout << "Dibujando Tetraedro" << endl;
+         if(modoMenu==NADA){
+            modoMenu=SELTAPAS;
+            cout << "Modo seleccion de tapas "<< endl << "S: Actualiza tapas superiores" << endl << "I: Actualiza tapas inferiores" << endl;
          }
+         break;
        case 'P':
          if(modoMenu==SELVISUALIZACION){
             //ACTIVAR VISUALIZACION PUNTOS
@@ -344,11 +367,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_points=0;
                cout << "Visualizacion por puntos desactivada " << endl;
             }
-         }
-         if(modoMenu==SELOBJETO){
-            //ACTIVAR VISUALIZACION PUNTOS
-            dibujo=P2;
-            cout << "Activando Modo P2" << endl;
          }
          break;
        case 'L':
@@ -373,6 +391,17 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_fill=0;
                cout << "Visualizacion modo solido desactivada" << endl;
             }
+         } else if(modoMenu==SELTAPAS){
+            if(tapas_sup){
+               tapas_sup=false;
+            } else{
+               tapas_sup=true;
+            }
+               cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
+               cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
+               esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
+               peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
+               cout << "Actualizadas tapas superiores" << endl;
          }
          break;
        case 'A':
@@ -392,6 +421,18 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             //ACTIVAR MODO INMEDIATO
             modo_d=INMEDIATO;
             cout << "Activado modo dibujado inmediato" << endl;
+         } else if(modoMenu==SELTAPAS){
+            if(tapas_inf){
+               tapas_inf=false;
+            } else{
+               tapas_inf=true;
+            }
+               cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
+               cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
+               esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
+               peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
+               cout << "Actualizadas tapas inferiores" << endl;
+
          }
          break;
 

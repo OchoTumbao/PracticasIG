@@ -52,20 +52,7 @@ Cubo::Cubo(float lado)
    f.push_back(theg);
    f.push_back(thfe);
 
-   for(int i=0;i<v.size();i++){
-      color_fill.push_back(c_fill);
-      color_wire.push_back(c_wire);
-      color_points.push_back(c_points);
-      color_chess1.push_back(c_chess1);
-      color_chess2.push_back(c_chess2);
-   }
-   for(int i=0;i<f.size();i++){
-      if(i%2==0){
-         faces_fh_chess.push_back(f.at(i));
-      }else{
-         faces_sh_chess.push_back(f.at(i));
-      }
-   }
+   rellenar_colores();
 
 
    

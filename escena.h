@@ -8,8 +8,11 @@
 #include "objply.h"
 #include "objrevolucion.h"
 #include "cilindro.h"
+#include "cono.h"
+#include "esfera.h"
 
-typedef enum {NADA, SELOBJETO,SELVISUALIZACION,SELDIBUJADO} menu;
+
+typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
 typedef enum{CUBO,TETRAEDRO,BUSTO,P2,NO} objeto_a_mostrar;
 class Escena
@@ -49,13 +52,17 @@ class Escena
    Cilindro * cilindro=nullptr;
    Cilindro * cilindrox=nullptr;
    Cilindro * cilindroz=nullptr;
+   Cono * cono=nullptr;
+   Esfera * esfera=nullptr;
+
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
    int flag_points=0;
    int flag_lines=0;
    int flag_fill=1;
    int flag_chess=0;
-
+   bool tapas_sup=true;
+   bool tapas_inf=true;
 
    
    public:
