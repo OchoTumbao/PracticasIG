@@ -50,7 +50,8 @@ class Malla3D
 
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
    void rellenar_colores();
-
+   GLuint CrearVBO(GLuint tipo_vbo , GLuint tamanio_bytes ,
+GLvoid * puntero_ram);
    std::vector<Tupla3f> v ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
    std::vector<Tupla3i> f ; // una terna de 3 enteros por cada cara o triángulo
    std::vector<Tupla3i> faces_fh_chess;
@@ -60,6 +61,7 @@ class Malla3D
    std::vector<Tupla3f> color_points;
    std::vector<Tupla3f> color_chess1;
    std::vector<Tupla3f> color_chess2;
+   std::vector<Tupla3f> vn;
    Tupla3f c_fill=Tupla3f(1.0,0.0,1.0);
    Tupla3f c_wire=Tupla3f(0.0,1.0,1.0);
    Tupla3f c_points=Tupla3f(0.0,0.0,0.0);
@@ -74,6 +76,7 @@ class Malla3D
    GLuint id_vboaf2=0;
    GLuint id_vboac1=0;
    GLuint id_vboac2=0;
+   GLuint id_vbovn=0;
 
 
    // completar: tabla de colores, tabla de normales de vértices

@@ -21,13 +21,13 @@ Escena::Escena()
     
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
+   peon= new ObjRevolucion("plys/peon.ply",4,true,true,1);
    ant=new ObjPLY("plys/ant.ply");
-   coche=new ObjPLY("plys/big_dodge.ply");
+   //coche=new ObjPLY("plys/big_dodge.ply");
    //busto=new ObjPLY("plys/beethoven.ply");
-   cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
-   cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
-   esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
+   cilindro=new Cilindro(10,4,10,5,0,true,false);
+   cono=new Cono(10,4,10,5,2,false,true);
+   esfera= new Esfera(10,4,5,1,true,false);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -62,6 +62,68 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 //
 // **************************************************************************
 
+void Escena::dibuja_escena(int modo_diferido,int modo_dibujo,bool tapas){
+             glPushMatrix();
+             if(modo_dibujo==0){
+             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             } else if( modo_dibujo==1){
+               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); 
+             } else{
+                glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+             }
+             glScalef(50.0,50.0,50.0);
+             peon->draw(modo_diferido,modo_dibujo,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->draw(modo_diferido,modo_dibujo);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->draw(modo_diferido,modo_dibujo,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->draw(modo_diferido,modo_dibujo,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->draw(modo_diferido,modo_dibujo,tapas);
+             glPopMatrix();
+}
+
+void Escena::dibuja_escena_ajedrez(int modo_diferido,bool tapas){
+            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+             glPushMatrix();
+             glScalef(50.0,50.0,50.0);
+             peon->drawAjedrez(modo_diferido,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(2.0,2.0,2.0);
+             glTranslatef(30.0,0.0,0.0);
+             ant->drawAjedrez(modo_diferido);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(-10.0,0.0,0.0);
+             esfera->drawAjedrez(modo_diferido,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,25.0);
+             cilindro->drawAjedrez(modo_diferido,tapas);
+             glPopMatrix();
+             glPushMatrix();
+             glScalef(10.0,10.0,10.0);
+             glTranslatef(0.0,0.0,-15.0);
+             cono->drawAjedrez(modo_diferido,tapas);
+             glPopMatrix();
+}
+
 void Escena::dibujar()
 {
    glEnable(GL_CULL_FACE);
@@ -72,230 +134,32 @@ void Escena::dibujar()
    switch(modo_d){
       case DIFERIDO:
           if(flag_fill==1){
-             glPushMatrix();
-             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             glScalef(50.0,50.0,50.0);
-             peon->draw(1,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(1,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(1,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(1,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(1,0);
-             glPopMatrix();
-
+             dibuja_escena(1,0,tapas);
           }
           if(flag_lines==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->draw(1,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(1,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(1,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(1,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(1,1);
-             glPopMatrix();
-
-             change_observer();
+            dibuja_escena(1,1,tapas);  
           }
           if(flag_points==1){
-             glPushMatrix();
-             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-             glScalef(50.0,50.0,50.0);
-             peon->draw(1,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(1,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(1,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(1,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(1,2);
-             glPopMatrix();
-             
+            dibuja_escena(1,2,tapas);  
           }
           if(flag_chess==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->drawAjedrez(1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->drawAjedrez(1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->drawAjedrez(1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->drawAjedrez(1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->drawAjedrez(1);
-             glPopMatrix();
-             
+             dibuja_escena_ajedrez(1,tapas);
           }
       break;
       case INMEDIATO:
           if(flag_fill==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->draw(0,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(0,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(0,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(0,0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(1,0);
-             glPopMatrix();
-
+             dibuja_escena(0,0,tapas);
           }
           if(flag_lines==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->draw(0,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(0,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(0,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(0,1);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(0,1);
-             glPopMatrix();
+             dibuja_escena(0,1,tapas);
 
              
           }
           if(flag_points==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-             glScalef(50.0,50.0,50.0);
-             peon->draw(0,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->draw(0,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->draw(0,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->draw(0,2);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->draw(0,2);
-             glPopMatrix();
+             dibuja_escena(0,2,tapas);
           }
           if(flag_chess==1){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->drawAjedrez(0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
-             ant->drawAjedrez(0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
-             esfera->drawAjedrez(0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
-             cilindro->drawAjedrez(0);
-             glPopMatrix();
-             glPushMatrix();
-             glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
-             cono->drawAjedrez(0);
-             glPopMatrix();
-             
+             dibuja_escena_ajedrez(0,tapas);
           }
       break;
    }
@@ -352,9 +216,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // COMPLETAR con los diferentes opciones de teclado
          break;
        case 'T':
-         if(modoMenu==NADA){
-            modoMenu=SELTAPAS;
-            cout << "Modo seleccion de tapas "<< endl << "S: Actualiza tapas superiores" << endl << "I: Actualiza tapas inferiores" << endl;
+         if(modoMenu==SELVISUALIZACION){
+            if(tapas){
+               tapas=false;
+            } else{
+               tapas=true;
+            }
+            cout << "Actualiza tapas" << endl;
          }
          break;
        case 'P':
@@ -391,18 +259,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_fill=0;
                cout << "Visualizacion modo solido desactivada" << endl;
             }
-         } else if(modoMenu==SELTAPAS){
-            if(tapas_sup){
-               tapas_sup=false;
-            } else{
-               tapas_sup=true;
-            }
-               cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
-               cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
-               esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
-               peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
-               cout << "Actualizadas tapas superiores" << endl;
-         }
+         } 
          break;
        case 'A':
          if(modoMenu==SELVISUALIZACION){
@@ -421,18 +278,6 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             //ACTIVAR MODO INMEDIATO
             modo_d=INMEDIATO;
             cout << "Activado modo dibujado inmediato" << endl;
-         } else if(modoMenu==SELTAPAS){
-            if(tapas_inf){
-               tapas_inf=false;
-            } else{
-               tapas_inf=true;
-            }
-               cilindro=new Cilindro(10,50,10,5,0,tapas_sup,tapas_inf);
-               cono=new Cono(10,50,10,5,2,tapas_sup,tapas_inf);
-               esfera= new Esfera(10,50,5,2,tapas_sup,tapas_inf);
-               peon= new ObjRevolucion("plys/peon.ply",50,tapas_sup,tapas_inf,1);
-               cout << "Actualizadas tapas inferiores" << endl;
-
          }
          break;
 

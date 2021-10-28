@@ -7,7 +7,7 @@
 //
 // *****************************************************************************
 
-GLuint CrearVBO ( GLuint tipo_vbo , GLuint tamanio_bytes ,
+GLuint Malla3D::CrearVBO ( GLuint tipo_vbo , GLuint tamanio_bytes ,
 GLvoid * puntero_ram )
 {
 GLuint id_vbo ; // resultado: identificador de VBO
@@ -26,8 +26,10 @@ void Malla3D::draw_ModoInmediato(int modo_dibujo)
   // visualizar la malla usando glDrawElements,
   // Inicializar Array Vertices
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
    // Indicamos buffer de vertices
    glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   glNormalPointer(GL_FLOAT,0,&vn[0]);
    //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
      
       glEnableClientState(GL_COLOR_ARRAY);
@@ -186,6 +188,9 @@ void Malla3D::draw_ModoDiferidoAjedrez()
    if(id_vboac2==0){
       id_vboac2=CrearVBO(GL_ARRAY_BUFFER,3*color_chess2.size()*sizeof(float),&color_chess2[0]);
    }
+   if(id_vbovn==0){
+      id_vbovn=CrearVBO(GL_ARRAY_BUFFER,3*vn.size()*sizeof(float),&vn[0]);
+   }
 
 
 
@@ -195,7 +200,11 @@ void Malla3D::draw_ModoDiferidoAjedrez()
    glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
    glVertexPointer(3,GL_FLOAT,0,0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbovn);
+   glNormalPointer(GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
    ////
    glEnableClientState(GL_COLOR_ARRAY);
    ///
@@ -221,13 +230,33 @@ void Malla3D::draw_ModoDiferidoAjedrez()
 
 }
 
+void Malla3D::calcular_normales(){
+      Tupla3f v1;
+      Tupla3f v2;
+      for(int i=0;i<v.size();i++){
+      vn.push_back(Tupla3f(0.0,0.0,0.0));
+      }
+   for(int i=0;i<f.size();i++){
+      Tupla3f v1=v.at(f.at(i)(0));
+      Tupla3f v2=v.at(f.at(i)(1));
+      Tupla3f res=v1.cross(v2);
+      res=res.normalized();
+      vn.at(f.at(i)(0))=vn.at(f.at(i)(0))+res;
+      vn.at(f.at(i)(1))=vn.at(f.at(i)(1))+res;
+      vn.at(f.at(i)(2))=vn.at(f.at(i)(2))+res;
+   }
+   for(int i=0;i<vn.size();i++){
+      printf("V: %d, %f,%f,%f VN: %f,%f,%f\n",i,v.at(i)(0),v.at(i)(1),v.at(i)(2),vn.at(i)(0),vn.at(i)(1),vn.at(i)(2));
+      vn.at(i)=vn.at(i).normalized();
+   }
+}
+
 
 
 
 void Malla3D::drawAjedrez(int modo_diferido)
 {
    // completar .....(práctica 1)
-   glShadeModel(GL_FLAT);
    if(modo_diferido==0){
       draw_ModoInmediatoAjedrez();
    } else{

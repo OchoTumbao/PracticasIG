@@ -53,10 +53,11 @@ ObjRevolucion::ObjRevolucion(const std::string & archivo, int num_instancias, bo
    ply::read_vertices(archivo,perfil_original);
 
    crearMalla(perfil_original,num_instancias);
-    
    rellenar_colores();
+   calcular_normales();
    // completar ......(práctica 2)
 }
+
 
 
 // *****************************************************************************
@@ -69,32 +70,13 @@ ObjRevolucion::ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_insta
    tapa_inf=tapa_infp;
    crearMalla(perfil_original,num_instancias);
    rellenar_colores();
+   calcular_normales();
+   
    // completar ......(práctica 2)
 }
 
 
 
- void ObjRevolucion::actualizatapa(int tapa){
-   if(tapa==0){
-      if(tapa_sup==true){        
-         f.erase(tapa_supit,tapa_supit+caras_tapa_sup.size());
-         tapa_sup=false;
-      } else{
-            f.insert(tapa_supit,caras_tapa_sup.cbegin(),caras_tapa_sup.cend());
-            tapa_sup=true;
-      }
-   } else{
-      if(tapa_inf=true){
-         f.erase(tapa_infit,f.cend());
-         tapa_inf=false;
-         tapa_infit=f.cend();
-      } else{
-         f.insert(tapa_infit,caras_tapa_inf.cbegin(),caras_tapa_inf.cend());
-         tapa_inf=true;
-         tapa_infit=f.cend()-caras_tapa_inf.size();
-      }
-   }
-}
 
 
     
@@ -117,13 +99,13 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
     }
 
    // Apartamos tapas
-      if(compare_float(perfil_original.at(M-1)(2),0.0)){
+      if(compare_float(perfil_original.at(M-1)(2),0.0) && compare_float(perfil_original.at(M-1)(1),0.0)){
       polo_norte=perfil_original.at(M-1);
       perfil_original.erase(perfil_original.cend()-1);
       } else{
          polo_norte=Tupla3f(perfil_original.at(M-1)(0),0.0,0.0);
       }
-      if(compare_float(perfil_original.at(0)(2),0.0)){
+      if(compare_float(perfil_original.at(0)(2),0.0) && compare_float(perfil_original.at(0)(1),0.0)){
       polo_sur=perfil_original.at(0);
       perfil_original.erase(perfil_original.cbegin());
       } else{
@@ -149,14 +131,14 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
 
    // Apartamos tapas
-      if(compare_float(perfil_original.at(M-1)(0),0.0)){
+       if(compare_float(perfil_original.at(M-1)(0),0.0) && compare_float(perfil_original.at(M-1)(2),0.0)){
       polo_norte=perfil_original.at(M-1);
       perfil_original.erase(perfil_original.cend()-1);
       } else{
          polo_norte=Tupla3f(0.0,perfil_original.at(M-1)(1),0.0);
       }
 
-      if(compare_float(perfil_original.at(0)(0),0.0)){
+      if(compare_float(perfil_original.at(0)(0),0.0) && compare_float(perfil_original.at(0)(2),0.0)){
       polo_sur=perfil_original.at(0);
       perfil_original.erase(perfil_original.cbegin());
       } else{
@@ -181,13 +163,13 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
     }
 
    // Apartamos tapas
-      if(compare_float(perfil_original.at(M-1)(1),0.0)){
+      if(compare_float(perfil_original.at(M-1)(0),0.0) && compare_float(perfil_original.at(M-1)(1),0.0)){
       polo_norte=perfil_original.at(M-1);
       perfil_original.erase(perfil_original.cend()-1);
       } else{
          polo_norte=Tupla3f(0.0,0.0,perfil_original.at(M-1)(2));
       }
-      if(compare_float(perfil_original.at(0)(1),0.0)){
+      if(compare_float(perfil_original.at(0)(0),0.0) && compare_float(perfil_original.at(0)(1),0.0)){
       polo_sur=perfil_original.at(0);
       perfil_original.erase(perfil_original.cbegin());
       } else{
@@ -211,46 +193,260 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          Tupla3i st(a,b+1,a+1);
          f.push_back(pt);
          f.push_back(st);
-         caras_notapas+=2;
+         
       }
    }
 
-if(tapa_sup){
-       
+   if(tapa_sup){
       v.push_back(polo_norte);
       int indice=v.size()-1;
 
        for(int i=0;i<N-1;i++){
           int last_instance=(M*(i+1)-1);
           int next_instance=(M*(i+2)-1);
-          Tupla3i tr(indice,last_instance,next_instance);
-          f.push_back(tr);
-          caras_tapa_sup.push_back(tr);
+          Tupla3i trsup(indice,last_instance,next_instance);
+          f.push_back(trsup);
+          ntapas++;
        }
-       Tupla3i tr(indice,M*N-1,M-1);
-       f.push_back(tr);
-       caras_tapa_sup.push_back(tr);
-
-    }
-    if(tapa_inf){
+       Tupla3i trsup(indice,M*N-1,M-1);
+          f.push_back(trsup);
+          ntapas++;
+   }
+   if(tapa_inf){
        v.push_back(polo_sur);
        int indice=v.size()-1;
        for(int i=0;i<N-1;i++){
           int last_instance=(M*i);
           int next_instance=(M*(i+1));
-          Tupla3i tr(indice,next_instance,last_instance);
-          f.push_back(tr);
-          caras_tapa_inf.push_back(tr);
+          Tupla3i trinf(indice,next_instance,last_instance);
+          f.push_back(trinf);
+          ntapas++;
        }
-       Tupla3i tr(indice,0,M*(N-1));
-       f.push_back(tr);
-       caras_tapa_inf.push_back(tr);
+       Tupla3i trinf(indice,0,M*(N-1));
+          f.push_back(trinf);
+          ntapas++;
 
-    }
+   }
+
+
+
 
 }
 
 
 
+void ObjRevolucion::draw(int modo_diferido,int modo_dibujo,bool tapas){
+      if(modo_diferido==0){
+      draw_ModoInmediato(modo_dibujo,tapas);
+   } else{
+      draw_ModoDiferido(modo_dibujo,tapas);
+   }
+
+
+}
+
+void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
+  // visualizar la malla usando glDrawElements,
+  // Inicializar Array Vertices
+   glEnableClientState(GL_VERTEX_ARRAY);
+   // Indicamos buffer de vertices
+   glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
+     
+      glEnableClientState(GL_COLOR_ARRAY);
+      switch(modo_dibujo){
+         case 0:
+               glColorPointer(3,GL_FLOAT,0,&color_fill[0]);
+         break;
+         case 1:
+               glColorPointer(3,GL_FLOAT,0,&color_wire[0]);
+         break;
+         case 2:
+     
+               glColorPointer(3,GL_FLOAT,0,&color_points[0]);
+         break;
+         default:
+               glColorPointer(3,GL_FLOAT,0,&color_fill[0]);
+         break;
+      }
+   if(tapas){
+     glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,&f[0]);
+   } else{
+      glDrawElements(GL_TRIANGLES,(f.size()-ntapas)*3,GL_UNSIGNED_INT,&f[0]);
+   }
+
+   // deshabilitamos el array de vertices
+   glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_COLOR_ARRAY);
+}
+
+   void ObjRevolucion::draw_ModoDiferido(int modo_dibujo,bool tapas){
+   if(id_vbov==0){
+      id_vbov=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&v[0]);
+      printf("Entro Aqui");
+   }
+   if(id_vbof==0){
+      id_vbof=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,3*f.size()*sizeof(int),&f[0]);
+   }
+      switch(modo_dibujo){
+         case 0:
+            if(id_vbocf==0){
+               id_vbocf=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&color_fill[0]);
+            }
+         break;
+         case 1:
+            if(id_vbocw==0){
+               id_vbocw=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&color_wire[0]);
+            }
+         break;
+         case 2:
+             if(id_vbocp==0){
+               id_vbocp=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&color_points[0]);
+            }
+         break;
+         default:
+            if(id_vbocf==0){
+               id_vbocf=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&color_fill[0]);
+            }
+         break;
+      }
+      switch(modo_dibujo){
+         case 0:
+            glBindBuffer(GL_ARRAY_BUFFER,id_vbocf);
+         break;
+         case 1:
+            glBindBuffer(GL_ARRAY_BUFFER,id_vbocw);
+         break;
+         case 2:
+            glBindBuffer(GL_ARRAY_BUFFER,id_vbocp);
+         break;
+         default:
+            glBindBuffer(GL_ARRAY_BUFFER,id_vbocf);
+         break;
+      }   
+      glEnableClientState(GL_COLOR_ARRAY);
+      glColorPointer(3,GL_FLOAT,0,0);
+      glBindBuffer(GL_ARRAY_BUFFER,0);
+
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
+   glVertexPointer(3,GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
+   glEnableClientState(GL_VERTEX_ARRAY);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbof);
+   if(tapas){
+   glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,0);
+   } else{
+   glDrawElements(GL_TRIANGLES,(f.size()-ntapas)*3,GL_UNSIGNED_INT,0);  
+   }
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+   glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_COLOR_ARRAY);
+   }
+
+void ObjRevolucion::draw_ModoInmediatoAjedrez(bool tapas)
+{
+  // visualizar la malla usando glDrawElements,
+  // Inicializar Array Vertices
+   glEnableClientState(GL_VERTEX_ARRAY);
+   // Indicamos buffer de vertices
+
+   glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
+      glEnableClientState(GL_COLOR_ARRAY);
+      glColorPointer(3,GL_FLOAT,0,&color_chess1[0]);
+
+   if(tapas){
+   glDrawElements(GL_TRIANGLES,faces_fh_chess.size()*3,GL_UNSIGNED_INT,&faces_fh_chess[0]);
+   }else{
+   glDrawElements(GL_TRIANGLES,(faces_fh_chess.size()-(ntapas/2))*3,GL_UNSIGNED_INT,&faces_fh_chess[0]);
+   }
+      glEnableClientState(GL_COLOR_ARRAY);
+      glColorPointer(3,GL_FLOAT,0,&color_chess2[0]);
+
+   if(tapas){
+   glDrawElements(GL_TRIANGLES,faces_fh_chess.size()*3,GL_UNSIGNED_INT,&faces_sh_chess[0]);
+   }else{
+   glDrawElements(GL_TRIANGLES,(faces_fh_chess.size()-(ntapas/2))*3,GL_UNSIGNED_INT,&faces_sh_chess[0]);
+   }
+
+   glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_COLOR_ARRAY);
+}
+// -----------------------------------------------------------------------------
+// Visualización en modo diferido con 'glDrawElements' (usando VBOs)
+
+void ObjRevolucion::draw_ModoDiferidoAjedrez(bool tapas)
+{
+   // (la primera vez, se deben crear los VBOs y guardar sus identificadores en el objeto)
+   // completar (práctica 1)
+   // .....
+
+
+
+   if(id_vbov==0){
+      id_vbov=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&v[0]);
+   }
+   if(id_vboaf1==0){
+      id_vboaf1=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,3*faces_fh_chess.size()*sizeof(int),&faces_fh_chess[0]);
+   }
+   if(id_vboaf2==0){
+      id_vboaf2=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,3*faces_sh_chess.size()*sizeof(int),&faces_sh_chess[0]);
+   }
+   if(id_vboac1==0){
+      id_vboac1=CrearVBO(GL_ARRAY_BUFFER,3*color_chess1.size()*sizeof(float),&color_chess1[0]);
+   }
+   if(id_vboac2==0){
+      id_vboac2=CrearVBO(GL_ARRAY_BUFFER,3*color_chess2.size()*sizeof(float),&color_chess2[0]);
+   }
+
+
+
+
+
+   ////
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
+   glVertexPointer(3,GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
+   glEnableClientState(GL_VERTEX_ARRAY);
+   ////
+   glEnableClientState(GL_COLOR_ARRAY);
+   ///
+   glBindBuffer(GL_ARRAY_BUFFER,id_vboac1);
+   glColorPointer(3,GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
+   ///
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vboaf1);
+   if(tapas){
+   glDrawElements(GL_TRIANGLES,faces_fh_chess.size()*3,GL_UNSIGNED_INT,0);
+   }else{
+   glDrawElements(GL_TRIANGLES,(faces_fh_chess.size()-ntapas/2)*3,GL_UNSIGNED_INT,0);
+   }
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+   ///
+   glBindBuffer(GL_ARRAY_BUFFER,id_vboac2);
+   glColorPointer(3,GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
+   ///
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vboaf2);
+   if(tapas){
+   glDrawElements(GL_TRIANGLES,faces_fh_chess.size()*3,GL_UNSIGNED_INT,0);
+   }else{
+   glDrawElements(GL_TRIANGLES,(faces_fh_chess.size()-ntapas/2)*3,GL_UNSIGNED_INT,0);
+   }
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+   ///
+   glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_COLOR_ARRAY);
+
+
+}
+
+void ObjRevolucion::drawAjedrez(int modo_diferido,bool tapas){
+      if(modo_diferido==0){
+      draw_ModoInmediatoAjedrez(tapas);
+   } else{
+      draw_ModoDiferidoAjedrez(tapas);
+   }
+}
 
 

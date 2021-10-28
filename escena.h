@@ -61,8 +61,7 @@ class Escena
    int flag_lines=0;
    int flag_fill=1;
    int flag_chess=0;
-   bool tapas_sup=true;
-   bool tapas_inf=true;
+   bool tapas=true;
 
    
    public:
@@ -73,6 +72,8 @@ class Escena
 
 	// Dibujar
 	void dibujar() ;
+    void dibuja_escena(int modo_diferido=1,int modo_dibujado=0,bool tapas=true);
+    void dibuja_escena_ajedrez(int modo_diferido=1,bool tapas=true);
 
 	// Interacción con la escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
