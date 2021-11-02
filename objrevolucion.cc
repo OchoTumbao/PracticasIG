@@ -251,6 +251,8 @@ void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
    glEnableClientState(GL_VERTEX_ARRAY);
    // Indicamos buffer de vertices
    glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glNormalPointer(GL_FLOAT,0,&vn[0]);
    //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
      
       glEnableClientState(GL_COLOR_ARRAY);
@@ -278,6 +280,7 @@ void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
    // deshabilitamos el array de vertices
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
 }
 
    void ObjRevolucion::draw_ModoDiferido(int modo_dibujo,bool tapas){
@@ -310,6 +313,9 @@ void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
             }
          break;
       }
+   if(id_vbovn==0){
+      id_vbovn=CrearVBO(GL_ARRAY_BUFFER,3*vn.size()*sizeof(float),&vn[0]);
+   }
       switch(modo_dibujo){
          case 0:
             glBindBuffer(GL_ARRAY_BUFFER,id_vbocf);
@@ -331,7 +337,11 @@ void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
    glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
    glVertexPointer(3,GL_FLOAT,0,0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbovn);
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glNormalPointer(GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbof);
    if(tapas){
    glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,0);
@@ -341,6 +351,7 @@ void ObjRevolucion::draw_ModoInmediato(int modo_dibujo,bool tapas){
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
    }
 
 void ObjRevolucion::draw_ModoInmediatoAjedrez(bool tapas)
@@ -351,6 +362,8 @@ void ObjRevolucion::draw_ModoInmediatoAjedrez(bool tapas)
    // Indicamos buffer de vertices
 
    glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   glEnableClientState(GL_NORMAL_ARRAY);
+   glNormalPointer(GL_FLOAT,0,&vn[0]);
    //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
       glEnableClientState(GL_COLOR_ARRAY);
       glColorPointer(3,GL_FLOAT,0,&color_chess1[0]);
@@ -370,6 +383,7 @@ void ObjRevolucion::draw_ModoInmediatoAjedrez(bool tapas)
    }
 
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
 }
 // -----------------------------------------------------------------------------
@@ -385,6 +399,9 @@ void ObjRevolucion::draw_ModoDiferidoAjedrez(bool tapas)
 
    if(id_vbov==0){
       id_vbov=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&v[0]);
+   }
+   if(id_vbovn==0){
+      id_vbovn=CrearVBO(GL_ARRAY_BUFFER,3*vn.size()*sizeof(float),&vn[0]);
    }
    if(id_vboaf1==0){
       id_vboaf1=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,3*faces_fh_chess.size()*sizeof(int),&faces_fh_chess[0]);
@@ -407,7 +424,10 @@ void ObjRevolucion::draw_ModoDiferidoAjedrez(bool tapas)
    glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
    glVertexPointer(3,GL_FLOAT,0,0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbovn);
+   glNormalPointer(GL_FLOAT,0,0);
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
    ////
    glEnableClientState(GL_COLOR_ARRAY);
    ///
@@ -437,6 +457,7 @@ void ObjRevolucion::draw_ModoDiferidoAjedrez(bool tapas)
    ///
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
 
 
 }

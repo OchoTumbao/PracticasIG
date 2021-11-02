@@ -52,6 +52,7 @@ void Malla3D::draw_ModoInmediato(int modo_dibujo)
    // deshabilitamos el array de vertices
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
 }
 // -----------------------------------------------------------------------------
 // Visualización en modo diferido con 'glDrawElements' (usando VBOs)
@@ -65,10 +66,12 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
 
    if(id_vbov==0){
       id_vbov=CrearVBO(GL_ARRAY_BUFFER,3*v.size()*sizeof(float),&v[0]);
-      printf("Entro Aqui");
    }
    if(id_vbof==0){
       id_vbof=CrearVBO(GL_ELEMENT_ARRAY_BUFFER,3*f.size()*sizeof(int),&f[0]);
+   }
+   if(id_vbovn==0){
+      id_vbovn=CrearVBO(GL_ARRAY_BUFFER,3*vn.size()*sizeof(float),&vn[0]);
    }
       switch(modo_dibujo){
          case 0:
@@ -113,11 +116,15 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
    glBindBuffer(GL_ARRAY_BUFFER,id_vbov);
    glVertexPointer(3,GL_FLOAT,0,0);
    glBindBuffer(GL_ARRAY_BUFFER,0);
+   glBindBuffer(GL_ARRAY_BUFFER,id_vbovn);
+   glNormalPointer(GL_FLOAT,0,0);
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbof);
    glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,0);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
 
 
@@ -147,9 +154,12 @@ void Malla3D::draw_ModoInmediatoAjedrez()
   // visualizar la malla usando glDrawElements,
   // Inicializar Array Vertices
    glEnableClientState(GL_VERTEX_ARRAY);
+   glEnableClientState(GL_NORMAL_ARRAY);
    // Indicamos buffer de vertices
 
    glVertexPointer(3,GL_FLOAT,0,&v[0]);
+   glNormalPointer(GL_FLOAT,0,&vn[0]);
+   
    //Visualizamos en modo inmediato, parametros: tipo de primitiva, numero de indices tipo de los indices y direccion de los indices
       glEnableClientState(GL_COLOR_ARRAY);
       glColorPointer(3,GL_FLOAT,0,&color_chess1[0]);
@@ -160,6 +170,7 @@ void Malla3D::draw_ModoInmediatoAjedrez()
     glDrawElements(GL_TRIANGLES,3*faces_sh_chess.size(),GL_UNSIGNED_INT,&faces_sh_chess[0]);  
 
    glDisableClientState(GL_VERTEX_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
 }
 // -----------------------------------------------------------------------------
@@ -226,6 +237,7 @@ void Malla3D::draw_ModoDiferidoAjedrez()
    ///
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
+   glDisableClientState(GL_NORMAL_ARRAY);
 
 
 }
@@ -237,8 +249,8 @@ void Malla3D::calcular_normales(){
       vn.push_back(Tupla3f(0.0,0.0,0.0));
       }
    for(int i=0;i<f.size();i++){
-      Tupla3f v1=v.at(f.at(i)(0));
-      Tupla3f v2=v.at(f.at(i)(1));
+      Tupla3f v1=v.at(f.at(i)(1))-v.at(f.at(i)(0));
+      Tupla3f v2=v.at(f.at(i)(2))-v.at(f.at(i)(0));
       Tupla3f res=v1.cross(v2);
       res=res.normalized();
       vn.at(f.at(i)(0))=vn.at(f.at(i)(0))+res;
@@ -246,7 +258,6 @@ void Malla3D::calcular_normales(){
       vn.at(f.at(i)(2))=vn.at(f.at(i)(2))+res;
    }
    for(int i=0;i<vn.size();i++){
-      printf("V: %d, %f,%f,%f VN: %f,%f,%f\n",i,v.at(i)(0),v.at(i)(1),v.at(i)(2),vn.at(i)(0),vn.at(i)(1),vn.at(i)(2));
       vn.at(i)=vn.at(i).normalized();
    }
 }

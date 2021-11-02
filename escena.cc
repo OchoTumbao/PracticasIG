@@ -21,13 +21,13 @@ Escena::Escena()
     
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/peon.ply",4,true,true,1);
+   peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
    ant=new ObjPLY("plys/ant.ply");
    //coche=new ObjPLY("plys/big_dodge.ply");
    //busto=new ObjPLY("plys/beethoven.ply");
-   cilindro=new Cilindro(10,4,10,5,0,true,false);
-   cono=new Cono(10,4,10,5,2,false,true);
-   esfera= new Esfera(10,4,5,1,true,false);
+   cilindro=new Cilindro(4,4,10,5,0,true,false);
+   cono=new Cono(10,50,10,5,2,false,true);
+   esfera= new Esfera(10,50,5,1,false,false);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
