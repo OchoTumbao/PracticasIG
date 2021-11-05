@@ -193,7 +193,6 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
          Tupla3i st(a,b+1,a+1);
          f.push_back(pt);
          f.push_back(st);
-         
       }
    }
 
@@ -236,6 +235,7 @@ void ObjRevolucion::crearMalla(std::vector<Tupla3f> perfil_original, int num_ins
 
 
 void ObjRevolucion::draw(int modo_diferido,int modo_dibujo,bool tapas){
+      m.aplicar();
       if(modo_diferido==0){
       draw_ModoInmediato(modo_dibujo,tapas);
    } else{
@@ -463,6 +463,7 @@ void ObjRevolucion::draw_ModoDiferidoAjedrez(bool tapas)
 }
 
 void ObjRevolucion::drawAjedrez(int modo_diferido,bool tapas){
+   m.aplicar();
       if(modo_diferido==0){
       draw_ModoInmediatoAjedrez(tapas);
    } else{

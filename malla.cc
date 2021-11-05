@@ -140,6 +140,7 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
 void Malla3D::draw(int modo_diferido,int modo_dibujo)
 {
    // completar .....(práctica 1)
+   m.aplicar();
    if(modo_diferido==0){
       draw_ModoInmediato(modo_dibujo);
    } else{
@@ -175,6 +176,11 @@ void Malla3D::draw_ModoInmediatoAjedrez()
 }
 // -----------------------------------------------------------------------------
 // Visualización en modo diferido con 'glDrawElements' (usando VBOs)
+
+
+void Malla3D::setMaterial(Material m){
+   this->m=m;
+}
 
 void Malla3D::draw_ModoDiferidoAjedrez()
 {
@@ -268,6 +274,7 @@ void Malla3D::calcular_normales(){
 void Malla3D::drawAjedrez(int modo_diferido)
 {
    // completar .....(práctica 1)
+   m.aplicar();
    if(modo_diferido==0){
       draw_ModoInmediatoAjedrez();
    } else{

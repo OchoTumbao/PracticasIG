@@ -11,6 +11,7 @@
 #define MALLA3D_H_INCLUDED
 
 #include "aux.h"
+#include "material.h"
 
 // *****************************************************************************
 //
@@ -44,6 +45,8 @@ class Malla3D
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    void drawAjedrez(int modo_diferido=1) ;
 
+   void setMaterial(Material m);
+
    
 
    protected:
@@ -67,6 +70,7 @@ GLvoid * puntero_ram);
    Tupla3f c_points=Tupla3f(0.0,0.0,0.0);
    Tupla3f c_chess1=Tupla3f(0.0,1.0,0.0);
    Tupla3f c_chess2=Tupla3f(1.0,0.0,0.0);
+   Tupla4f defaultmaterial=Tupla4f(0.0,0.0,0.0,1.0);
    GLuint id_vbov=0;
    GLuint id_vbof=0;
    GLuint id_vbocw=0;
@@ -77,6 +81,7 @@ GLvoid * puntero_ram);
    GLuint id_vboac1=0;
    GLuint id_vboac2=0;
    GLuint id_vbovn=0;
+   Material m=Material(defaultmaterial,defaultmaterial,defaultmaterial,1.0);
 
 
    // completar: tabla de colores, tabla de normales de vértices

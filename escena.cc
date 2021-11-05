@@ -18,16 +18,29 @@ Escena::Escena()
 
     ejes.changeAxisSize( 5000 );
 
-    
+   Tupla4f negro(0.0,0.0,0.0,1.0);
+   Tupla4f blanco(1.0,1.0,1.0,1.0);
+   Tupla4f rojo(1.0,0.0,0.0,1.0);    
+   Tupla4f verde(0.0,1.0,0.0,1.0);
+   Tupla2f angulo(0.0,0.0);
+   Tupla3f posicion(0.0,6.0,0.0);
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
    peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
    ant=new ObjPLY("plys/ant.ply");
    //coche=new ObjPLY("plys/big_dodge.ply");
    //busto=new ObjPLY("plys/beethoven.ply");
-   cilindro=new Cilindro(4,4,10,5,0,true,false);
+   cilindro=new Cilindro(50,50,10,5,0,true,false);
    cono=new Cono(10,50,10,5,2,false,true);
    esfera= new Esfera(10,50,5,1,false,false);
+   m1= new Material(blanco,negro,blanco,90.0);
+   m2= new Material(negro,blanco,negro,90.0);
+   m3= new Material(rojo,blanco,verde,90.0);
+   ld= new LuzDireccional(angulo,GL_LIGHT0,verde,verde,verde);
+   lp= new LuzPosicional(posicion,GL_LIGHT1,rojo,rojo,rojo);
+   peon->setMaterial(*m1);
+   esfera->setMaterial(*m2);
+   ant->setMaterial(*m3);
     // crear los objetos de la escena....
     // .......completar: ...
     // .....
@@ -75,23 +88,23 @@ void Escena::dibuja_escena(int modo_diferido,int modo_dibujo,bool tapas){
              peon->draw(modo_diferido,modo_dibujo,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(200.0,0.0,0.0);
              glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
              ant->draw(modo_diferido,modo_dibujo);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(-200.0,0.0,0.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
              esfera->draw(modo_diferido,modo_dibujo,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(0.0,0.0,200.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
              cilindro->draw(modo_diferido,modo_dibujo,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(0.0,0.0,-200.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
              cono->draw(modo_diferido,modo_dibujo,tapas);
              glPopMatrix();
 }
@@ -127,12 +140,32 @@ void Escena::dibuja_escena_ajedrez(int modo_diferido,bool tapas){
 void Escena::dibujar()
 {
    glEnable(GL_CULL_FACE);
+   glEnable(GL_NORMALIZE);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
    glPointSize(10);
+   glDisable(GL_LIGHTING);
     ejes.draw();
    switch(modo_d){
       case DIFERIDO:
+          if(flag_luz==1){
+             glEnable(GL_LIGHTING);
+             switch (modo_sombreado)
+             {
+             case SMOOTH:
+                glShadeModel(GL_SMOOTH);
+                break;
+             case FLAT:
+                glShadeModel(GL_FLAT);
+               break;
+             
+             default:
+                glShadeModel(GL_SMOOTH);
+                break;
+             }
+             dibuja_escena(1,0,tapas);
+          } else{
+             glDisable(GL_LIGHTING);
           if(flag_fill==1){
              dibuja_escena(1,0,tapas);
           }
@@ -145,8 +178,30 @@ void Escena::dibujar()
           if(flag_chess==1){
              dibuja_escena_ajedrez(1,tapas);
           }
+          }
       break;
       case INMEDIATO:
+          if (flag_luz==1){
+             glEnable(GL_LIGHTING);
+          if(flag_luz==1){
+             glEnable(GL_LIGHTING);
+             switch (modo_sombreado)
+             {
+             case SMOOTH:
+                glShadeModel(GL_SMOOTH);
+                break;
+             case FLAT:
+                glShadeModel(GL_FLAT);
+               break;
+             
+             default:
+                glShadeModel(GL_SMOOTH);
+                break;
+             }
+             dibuja_escena(0,0,tapas);
+          }
+          }else{
+             glDisable(GL_LIGHTING);
           if(flag_fill==1){
              dibuja_escena(0,0,tapas);
           }
@@ -160,6 +215,7 @@ void Escena::dibujar()
           }
           if(flag_chess==1){
              dibuja_escena_ajedrez(0,tapas);
+          }
           }
       break;
    }
@@ -201,7 +257,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // ESTAMOS EN MODO SELECCION DE MODO DE VISUALIZACION
          if(modoMenu==NADA){
          modoMenu=SELVISUALIZACION;
-         printf("Opciones disponibles: \n 'L' : Linea; \n 'P' : Puntos \n 'S': Solido  \n 'A': Ajedrez");}
+         printf("Opciones disponibles: \n 'L' : Linea; \n 'P' : Puntos \n 'S': Solido  \n 'A': Ajedrez \n 'T' : Visualizacion de tapas \n 'U' : Visualizacion con iluminacion" );}
          break ;
        case 'D' :
          // ESTAMOS EN MODO SELECCION DE DIBUJADO
@@ -225,8 +281,22 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             cout << "Actualiza tapas" << endl;
          }
          break;
+      case 'U':
+         if(modoMenu==SELVISUALIZACION){
+            if(flag_luz==0){
+               flag_luz=1;
+               cout << "Activado modo iluminacion" << endl;
+            } else{
+               flag_luz=0;
+               cout << "Desactivado Modo iluminacion" << endl;
+            }
+         }
+      break;
        case 'P':
          if(modoMenu==SELVISUALIZACION){
+           if(flag_luz==1){
+               flag_luz=0;
+            }
             //ACTIVAR VISUALIZACION PUNTOS
             if(flag_points==0){
             flag_points=1;
@@ -239,6 +309,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'L':
          if(modoMenu==SELVISUALIZACION){
+           if(flag_luz==1){
+               flag_luz=0;
+            }
             //ACTIVAR VISUALIZACION LINEAS
             if(flag_lines==0){
             flag_lines=1;
@@ -252,6 +325,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case 'S':
          if(modoMenu==SELVISUALIZACION){
             //ACTIVAR VISUALIZACION SOLIDO
+            if(flag_luz==1){
+               flag_luz=0;
+            }
             if(flag_fill==0){
             flag_fill=1;
             cout << "Visualizacion modo solido activada" << endl;
@@ -263,6 +339,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
        case 'A':
          if(modoMenu==SELVISUALIZACION){
+           if(flag_luz==1){
+               flag_luz=0;
+            }
             //ACTIVAR VISUALIZACION AJEDREZ
             if(flag_chess==0){
             flag_chess=1;
@@ -280,6 +359,56 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             cout << "Activado modo dibujado inmediato" << endl;
          }
          break;
+
+       case '0':
+         if(flag_luz){
+            cout << "Activando luz 0" << endl;
+            ld->activar();
+         }
+         break;
+       case '1':
+         if(flag_luz){
+            cout << "Activando luz 1" << endl;
+            lp->activar();
+         }
+         break;
+      case '2':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;
+      case '3':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;
+      case '4':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;
+      case '5':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;
+      case '6':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;   
+      case '7':{
+         if(flag_luz){
+            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+      }
+      break;
+      case ''
 
             
    }

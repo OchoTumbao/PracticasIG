@@ -1,4 +1,4 @@
-#include "luzdireccional.h"
+#include "luces.h"
 Tupla4f RotaEjeY(Tupla4f punto, float radianes){
    float resx,resy,resz,resw;
    resx=punto(0)*cos(radianes)+punto(2)*sin(radianes);
@@ -39,4 +39,13 @@ void LuzDireccional::variarAnguloAlpha(float incremento){
 void LuzDireccional::variarAnguloBeta(float incremento){
     beta+=incremento;
     this->posicion=RotaEjeY(posicion,incremento);
+}
+
+LuzPosicional::LuzPosicional(Tupla3f posicion,GLenum id,Tupla4f colorAmbiente,Tupla4f colorDifuso, Tupla4f colorEspecular){
+    Tupla4f pos(posicion(0),posicion(1),posicion(2),1.0);
+    this->posicion=pos;
+    this->id=id;
+    this->colorAmbiente=colorAmbiente;
+    this->colorDifuso=colorDifuso;
+    this->colorEspecular=colorEspecular;
 }

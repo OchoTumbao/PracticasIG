@@ -10,11 +10,12 @@
 #include "cilindro.h"
 #include "cono.h"
 #include "esfera.h"
-
+#include "luces.h"
 
 typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
 typedef enum{CUBO,TETRAEDRO,BUSTO,P2,NO} objeto_a_mostrar;
+typedef enum{SMOOTH,FLAT} sombreado;
 class Escena
 {
 
@@ -41,6 +42,7 @@ class Escena
    void clear_window();
 
    menu modoMenu=NADA;
+   sombreado modo_sombreado=SMOOTH;
    // Objetos de la escena
    Ejes ejes;
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
@@ -54,6 +56,11 @@ class Escena
    Cilindro * cilindroz=nullptr;
    Cono * cono=nullptr;
    Esfera * esfera=nullptr;
+   Material * m1=nullptr;
+   Material * m2=nullptr;
+   Material * m3=nullptr;
+   LuzDireccional * ld=nullptr;
+   LuzPosicional * lp=nullptr;
 
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
@@ -61,6 +68,7 @@ class Escena
    int flag_lines=0;
    int flag_fill=1;
    int flag_chess=0;
+   int flag_luz=0;
    bool tapas=true;
 
    
