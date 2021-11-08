@@ -12,7 +12,7 @@
 #include "esfera.h"
 #include "luces.h"
 
-typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO} menu;
+typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO,MODOLUZ} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
 typedef enum{CUBO,TETRAEDRO,BUSTO,P2,NO} objeto_a_mostrar;
 typedef enum{SMOOTH,FLAT} sombreado;
@@ -70,6 +70,7 @@ class Escena
    int flag_chess=0;
    int flag_luz=0;
    bool tapas=true;
+   int variar_angulo=0;
 
    
    public:

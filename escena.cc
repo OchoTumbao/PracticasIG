@@ -183,8 +183,6 @@ void Escena::dibujar()
       case INMEDIATO:
           if (flag_luz==1){
              glEnable(GL_LIGHTING);
-          if(flag_luz==1){
-             glEnable(GL_LIGHTING);
              switch (modo_sombreado)
              {
              case SMOOTH:
@@ -200,7 +198,7 @@ void Escena::dibujar()
              }
              dibuja_escena(0,0,tapas);
           }
-          }else{
+          else{
              glDisable(GL_LIGHTING);
           if(flag_fill==1){
              dibuja_escena(0,0,tapas);
@@ -320,7 +318,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_lines=0;
                cout << "Visualizacion por lineas desactivada " << endl;
             }
-         }
+         } 
+            if(modoMenu==NADA){
+            modoMenu=MODOLUZ;
+            cout << "MODO LUZ ACTIVADO" << endl;
+            }
          break;
        case 'S':
          if(modoMenu==SELVISUALIZACION){
@@ -335,7 +337,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                flag_fill=0;
                cout << "Visualizacion modo solido desactivada" << endl;
             }
-         } 
+         }
+
+         if(modoMenu==MODOLUZ){
+            modo_sombreado=SMOOTH;
+         }
          break;
        case 'A':
          if(modoMenu==SELVISUALIZACION){
@@ -349,6 +355,12 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             } else{
                flag_chess=0;
                cout << "Visualizacion modo ajedrez desactivado" << endl;
+            }
+         } 
+         if (modoMenu==MODOLUZ){
+            if(flag_luz==1){
+               variar_angulo=1;
+               cout << "ANGULO A VARIAR ALFA" << endl;
             }
          }
          break;
@@ -370,45 +382,79 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          if(flag_luz){
             cout << "Activando luz 1" << endl;
             lp->activar();
-         }
+         } 
          break;
-      case '2':{
+      case '2':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
       break;
-      case '3':{
+      case '3':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
       break;
-      case '4':{
+      case '4':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
+
       break;
-      case '5':{
+      case '5':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
       break;
-      case '6':{
+      case '6':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
       break;   
-      case '7':{
+      case '7':
          if(flag_luz){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
-      }
       break;
-      case ''
+
+      case 'B':
+         if(modoMenu==MODOLUZ){
+            if(flag_luz){
+               variar_angulo=0;
+               cout << "ANGULO A VARIAR IGUAL A BETA" << endl;
+            }
+         }
+      break;
+
+      case '<':
+         if(modoMenu==MODOLUZ){
+            if(flag_luz){
+               if(variar_angulo==1){
+                  ld->variarAnguloAlpha(-0.174533);
+               } else{
+                  ld->variarAnguloBeta(-0.174533);
+               }
+            } 
+         }
+      break;
+
+      case '>':
+         if(modoMenu==MODOLUZ){
+            if(flag_luz){
+               if(variar_angulo==1){
+                  ld->variarAnguloAlpha(0.174533);
+               } else{
+                  ld->variarAnguloBeta(0.174533);
+               }
+            }
+         }
+      break;
+      
+      case 'F':
+         if(modoMenu==MODOLUZ){
+            if(flag_luz){
+               modo_sombreado=FLAT;
+            }
+         }
 
             
    }

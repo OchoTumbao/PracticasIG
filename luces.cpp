@@ -34,12 +34,16 @@ LuzDireccional::LuzDireccional(Tupla2f direccion,GLenum id,Tupla4f colorAmbiente
 void LuzDireccional::variarAnguloAlpha(float incremento){
     alpha+=incremento;
     this->posicion=RotaEjeX(posicion,incremento);
+    glLightfv(id,GL_POSITION,posicion);
 }
 
 void LuzDireccional::variarAnguloBeta(float incremento){
     beta+=incremento;
     this->posicion=RotaEjeY(posicion,incremento);
+    glLightfv(id,GL_POSITION,posicion);
 }
+
+
 
 LuzPosicional::LuzPosicional(Tupla3f posicion,GLenum id,Tupla4f colorAmbiente,Tupla4f colorDifuso, Tupla4f colorEspecular){
     Tupla4f pos(posicion(0),posicion(1),posicion(2),1.0);
