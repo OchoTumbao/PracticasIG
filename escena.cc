@@ -116,23 +116,23 @@ void Escena::dibuja_escena_ajedrez(int modo_diferido,bool tapas){
              peon->drawAjedrez(modo_diferido,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(200.0,0.0,0.0);
              glScalef(2.0,2.0,2.0);
-             glTranslatef(30.0,0.0,0.0);
              ant->drawAjedrez(modo_diferido);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(-200.0,0.0,0.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(-10.0,0.0,0.0);
              esfera->drawAjedrez(modo_diferido,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(0.0,0.0,200.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,25.0);
              cilindro->drawAjedrez(modo_diferido,tapas);
              glPopMatrix();
              glPushMatrix();
+             glTranslatef(0.0,0.0,-200.0);
              glScalef(10.0,10.0,10.0);
-             glTranslatef(0.0,0.0,-15.0);
              cono->drawAjedrez(modo_diferido,tapas);
              glPopMatrix();
 }
