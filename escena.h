@@ -71,6 +71,8 @@ class Escena
    int flag_luz=0;
    bool tapas=true;
    int variar_angulo=0;
+   int luz1=0;
+   int luz2=0;
 
    
    public:

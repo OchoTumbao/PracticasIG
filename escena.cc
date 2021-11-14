@@ -21,9 +21,19 @@ Escena::Escena()
    Tupla4f negro(0.0,0.0,0.0,1.0);
    Tupla4f blanco(1.0,1.0,1.0,1.0);
    Tupla4f rojo(1.0,0.0,0.0,1.0);    
-   Tupla4f verde(0.0,1.0,0.0,1.0);
+   Tupla4f verde(0.0,0.5,0.0,0.5);
+   Tupla4f Oros(0.628281f, 0.555802f, 0.366065f, 1.0f);
+   Tupla4f Orod(0.75164f, 0.60648f, 0.22648f, 1.0f);
+   Tupla4f Oroa(0.24725f, 0.1995f, 0.0745f, 1.0f);
+   Tupla4f plataa(0.19225f, 0.19225f, 0.19225f, 1.0f);
+   Tupla4f platad(0.50754f, 0.50754f, 0.50754f, 1.0f);
+   Tupla4f platas(0.333333f, 0.333333f, 0.521569f, 1.0f);
+   Tupla4f rubia(0.1745f, 0.01175f, 0.01175f, 0.55f);
+   Tupla4f rubid(0.61424f, 0.04136f, 0.04136f, 0.55f);
+   Tupla4f rubis(0.727811f, 0.626959f, 0.626959f, 0.55f);
+
    Tupla2f angulo(0.0,0.0);
-   Tupla3f posicion(0.0,6.0,0.0);
+   Tupla3f posicion(0.0,150.0,0.0);
    cubo=new Cubo(100);
    tetraedro=new Tetraedro(100);
    peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
@@ -33,11 +43,11 @@ Escena::Escena()
    cilindro=new Cilindro(50,50,10,5,0,true,false);
    cono=new Cono(10,50,10,5,2,false,true);
    esfera= new Esfera(10,50,5,1,false,false);
-   m1= new Material(blanco,negro,blanco,90.0);
-   m2= new Material(negro,blanco,negro,90.0);
-   m3= new Material(rojo,blanco,verde,90.0);
+   m1= new Material(Orod,Oros,Oroa,83.2);
+   m2= new Material(platad,platas,plataa,51.2);
+   m3= new Material(rubid,rubis,rubia,76.8);
    ld= new LuzDireccional(angulo,GL_LIGHT0,verde,verde,verde);
-   lp= new LuzPosicional(posicion,GL_LIGHT1,rojo,rojo,rojo);
+   lp= new LuzPosicional(posicion,GL_LIGHT1,blanco,blanco,blanco);
    peon->setMaterial(*m1);
    esfera->setMaterial(*m2);
    ant->setMaterial(*m3);
@@ -157,12 +167,15 @@ void Escena::dibujar()
                 break;
              case FLAT:
                 glShadeModel(GL_FLAT);
+                
                break;
              
              default:
                 glShadeModel(GL_SMOOTH);
                 break;
              }
+                ld->activar();
+                lp->activar();
              dibuja_escena(1,0,tapas);
           } else{
              glDisable(GL_LIGHTING);
@@ -196,6 +209,8 @@ void Escena::dibujar()
                 glShadeModel(GL_SMOOTH);
                 break;
              }
+                ld->activar();
+                lp->activar();
              dibuja_escena(0,0,tapas);
           }
           else{
@@ -375,13 +390,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
        case '0':
          if(flag_luz){
             cout << "Activando luz 0" << endl;
-            ld->activar();
+            ld->habilitar();
          }
          break;
        case '1':
          if(flag_luz){
             cout << "Activando luz 1" << endl;
-            lp->activar();
+            lp->habilitar();
          } 
          break;
       case '2':

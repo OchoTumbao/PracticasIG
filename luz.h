@@ -5,6 +5,7 @@ class Luz
 public:
 void activar();
 void desactivar();
+void habilitar();
 protected:
 Tupla4f posicion;
 GLenum id;
