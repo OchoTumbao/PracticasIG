@@ -140,7 +140,7 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
 void Malla3D::draw(int modo_diferido,int modo_dibujo)
 {
    // completar .....(práctica 1)
-   m.aplicar();
+   //m.aplicar();
    if(modo_diferido==0){
       draw_ModoInmediato(modo_dibujo);
    } else{

@@ -1,7 +1,7 @@
 #include "aux.h"
 #include "objrevolucion.h"
 #include "ply_reader.h"
-#include <cmath>
+#include "func_aux.hpp"
 
 
 
@@ -35,10 +35,7 @@ Tupla3f RotaEjeZ(Tupla3f punto, float radianes){
    return Tupla3f(resx,resy,resz);
 }
 
-bool compare_float(float a,float b){
 
-   return fabs(a-b) < 0.01f;
-}
 
 // *****************************************************************************
 // objeto de revolución obtenido a partir de un perfil (en un PLY)

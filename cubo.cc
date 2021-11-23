@@ -53,6 +53,7 @@ Cubo::Cubo(float lado)
    f.push_back(thfe);
 
    rellenar_colores();
+   calcular_normales();
 
 
    

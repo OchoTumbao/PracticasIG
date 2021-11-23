@@ -4,10 +4,16 @@
 #include "escena.h"
 #include "malla.h" // objetos: Cubo y otros....
 
+
 //**************************************************************************
 // constructor de la escena (no puede usar ordenes de OpenGL)
 //**************************************************************************
 
+
+bool compre_float(float a,float b){
+
+   return fabs(a-b) < 0.01f;
+}
 Escena::Escena()
 {
     Front_plane       = 50.0;
@@ -19,42 +25,15 @@ Escena::Escena()
     ejes.changeAxisSize( 5000 );
 
    Tupla4f negro(0.0,0.0,0.0,1.0);
-   Tupla4f blanco(1.0,1.0,1.0,1.0);
-   Tupla4f rojo(1.0,0.0,0.0,1.0);    
+   Tupla4f luz1a(0.2,0.2,0.2,1.0);
+   Tupla4f luz1d(1.0,1.0,1.0,1.0);
+   Tupla4f luz1s(1.0,1.0,1.0,1.0);
    Tupla4f verde(0.0,0.5,0.0,0.5);
-   Tupla4f Oros(0.628281f, 0.555802f, 0.366065f, 1.0f);
-   Tupla4f Orod(0.75164f, 0.60648f, 0.22648f, 1.0f);
-   Tupla4f Oroa(0.24725f, 0.1995f, 0.0745f, 1.0f);
-   Tupla4f plataa(0.19225f, 0.19225f, 0.19225f, 1.0f);
-   Tupla4f platad(0.50754f, 0.50754f, 0.50754f, 1.0f);
-   Tupla4f platas(0.333333f, 0.333333f, 0.521569f, 1.0f);
-   Tupla4f rubia(0.1745f, 0.01175f, 0.01175f, 0.55f);
-   Tupla4f rubid(0.61424f, 0.04136f, 0.04136f, 0.55f);
-   Tupla4f rubis(0.727811f, 0.626959f, 0.626959f, 0.55f);
-
    Tupla2f angulo(0.0,0.0);
    Tupla3f posicion(0.0,150.0,0.0);
-   cubo=new Cubo(100);
-   tetraedro=new Tetraedro(100);
-   peon= new ObjRevolucion("plys/peon.ply",50,true,true,1);
-   ant=new ObjPLY("plys/ant.ply");
-   //coche=new ObjPLY("plys/big_dodge.ply");
-   //busto=new ObjPLY("plys/beethoven.ply");
-   cilindro=new Cilindro(50,50,10,5,0,true,false);
-   cono=new Cono(10,50,10,5,2,false,true);
-   esfera= new Esfera(10,50,5,1,false,false);
-   m1= new Material(Orod,Oros,Oroa,83.2);
-   m2= new Material(platad,platas,plataa,51.2);
-   m3= new Material(rubid,rubis,rubia,76.8);
    ld= new LuzDireccional(angulo,GL_LIGHT0,verde,verde,verde);
-   lp= new LuzPosicional(posicion,GL_LIGHT1,blanco,blanco,blanco);
-   peon->setMaterial(*m1);
-   esfera->setMaterial(*m2);
-   ant->setMaterial(*m3);
-    // crear los objetos de la escena....
-    // .......completar: ...
-    // .....
-
+   lp= new LuzPosicional(posicion,GL_LIGHT1,luz1a,luz1d,luz1s);
+   kk= new KlinkKlang();
 }
 
 //**************************************************************************
@@ -76,7 +55,13 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	glViewport( 0, 0, UI_window_width, UI_window_height );
 }
 
-
+void Escena::animarModeloJerarquico(){
+   if(animacion){
+   kk->modifica_anguloBanda(porcentajeBanda);
+   kk->modifica_anguloEngranajes(porcentajeEngranaje);
+   kk->modifica_Posicion(porcentajePosicion);
+   }
+}
 
 // **************************************************************************
 //
@@ -86,65 +71,30 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 // **************************************************************************
 
 void Escena::dibuja_escena(int modo_diferido,int modo_dibujo,bool tapas){
-             glPushMatrix();
-             if(modo_dibujo==0){
-             glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             } else if( modo_dibujo==1){
-               glPolygonMode(GL_FRONT_AND_BACK,GL_LINE); 
-             } else{
-                glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-             }
-             glScalef(50.0,50.0,50.0);
-             peon->draw(modo_diferido,modo_dibujo,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(200.0,0.0,0.0);
-             glScalef(2.0,2.0,2.0);
-             ant->draw(modo_diferido,modo_dibujo);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(-200.0,0.0,0.0);
-             glScalef(10.0,10.0,10.0);
-             esfera->draw(modo_diferido,modo_dibujo,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(0.0,0.0,200.0);
-             glScalef(10.0,10.0,10.0);
-             cilindro->draw(modo_diferido,modo_dibujo,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(0.0,0.0,-200.0);
-             glScalef(10.0,10.0,10.0);
-             cono->draw(modo_diferido,modo_dibujo,tapas);
-             glPopMatrix();
+   switch (modo_dibujo){
+      case 2:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
+         kk->draw(modo_diferido,modo_dibujo);
+         break;
+      case 1:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+         kk->draw(modo_diferido,modo_dibujo);
+         break;
+      case 0:
+         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+         kk->draw(modo_diferido,modo_dibujo);
+         break;
+   default:
+      glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+      kk->draw(modo_diferido,modo_dibujo);
+      break;
+   }
+
 }
 
 void Escena::dibuja_escena_ajedrez(int modo_diferido,bool tapas){
-            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-             glPushMatrix();
-             glScalef(50.0,50.0,50.0);
-             peon->drawAjedrez(modo_diferido,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(200.0,0.0,0.0);
-             glScalef(2.0,2.0,2.0);
-             ant->drawAjedrez(modo_diferido);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(-200.0,0.0,0.0);
-             glScalef(10.0,10.0,10.0);
-             esfera->drawAjedrez(modo_diferido,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(0.0,0.0,200.0);
-             glScalef(10.0,10.0,10.0);
-             cilindro->drawAjedrez(modo_diferido,tapas);
-             glPopMatrix();
-             glPushMatrix();
-             glTranslatef(0.0,0.0,-200.0);
-             glScalef(10.0,10.0,10.0);
-             cono->drawAjedrez(modo_diferido,tapas);
-             glPopMatrix();
+   glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+   kk->drawAjedrez(modo_diferido);
 }
 
 void Escena::dibujar()
@@ -319,6 +269,15 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                cout << "Visualizacion por puntos desactivada " << endl;
             }
          }
+         if (modoMenu==MODOANIMACION){
+               if(animacion){
+                  animacion=false;
+                  cout << "Desactivada animación automatica" << endl;
+               } else{
+                  animacion=true;
+                  cout << "Activada animación automatica" << endl;
+               }
+         }
          break;
        case 'L':
          if(modoMenu==SELVISUALIZACION){
@@ -378,6 +337,22 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                cout << "ANGULO A VARIAR ALFA" << endl;
             }
          }
+         if (modoMenu==NADA){
+            modoMenu=MODOANIMACION;
+            cout << "MODO ANIMACION ACTIVADO" << endl;
+            cout << "P: ACTIVAR ANIMACIÓN AUTOMATICA" << endl;
+            cout << "+ AUMENTA LA VELOCIDAD DE LA ANIMACIÓN" << endl;
+            cout << "- DIMINUYE LA VELOCIDAD DE LA ANIMACIÓN" << endl;
+            cout << "0: SELECCIONAR GRADO 0" << endl;
+            cout << "1: SELECCIONAR GRADO 1" << endl;
+            cout << "2: SELECCIONAR GRADO 2" << endl;
+            cout << "G: SELECCIONAR VELOCIDAD GLOBAL" << endl;
+            cout << "Q: SALIR MODO ANIMACIÓN" << endl;
+            cout << "F: AVANZA LA ANIMACIÓN PASO A PASO" << endl;
+
+         }
+
+
          break;
        case 'I':
          if(modoMenu==SELDIBUJADO){
@@ -388,45 +363,69 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
 
        case '0':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Activando luz 0" << endl;
             ld->habilitar();
          }
+         if (modoMenu==MODOANIMACION){
+            if(grado0){
+               grado0=false;
+            } else{
+               grado0=true;
+            }
+            cout << "Seleccionando grado 0" << endl;
+         }
          break;
        case '1':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Activando luz 1" << endl;
             lp->habilitar();
          } 
+         if (modoMenu==MODOANIMACION){
+            if(grado1){
+               grado1=false;
+            } else{
+               grado1=true;
+            }
+            cout << "Seleccionando grado 1" << endl;
+         }
          break;
       case '2':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+         }
+         if (modoMenu==MODOANIMACION){
+            if(grado2){
+               grado2=false;
+            } else{
+               grado2=true;
+            }
+            cout << "Seleccionando grado 2" << endl;
          }
       break;
       case '3':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
       break;
       case '4':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
 
       break;
       case '5':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
       break;
       case '6':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
       break;   
       case '7':
-         if(flag_luz){
+         if(modoMenu==MODOLUZ){
             cout << "Actualmente no hay mas de dos luces implementadas" << endl;
          }
       break;
@@ -449,7 +448,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                   ld->variarAnguloBeta(-0.174533);
                }
             } 
-         }
+         } 
       break;
 
       case '>':
@@ -461,7 +460,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                   ld->variarAnguloBeta(0.174533);
                }
             }
-         }
+         } 
       break;
       
       case 'F':
@@ -470,6 +469,74 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
                modo_sombreado=FLAT;
             }
          }
+         if(modoMenu==MODOANIMACION){
+               if(grado0){
+                  kk->modifica_anguloBanda(porcentajeBanda);
+               }
+               if(grado1){
+                  kk->modifica_anguloEngranajes(porcentajeEngranaje);
+               }
+               if(grado2){
+                  kk->modifica_Posicion(porcentajePosicion);
+               }
+         }
+      break;
+
+      case 'G':
+         if(modoMenu==MODOANIMACION){
+            grado0=true;
+            grado1=true;
+            grado2=true;
+         }
+      break;
+
+      case '+':
+         if(modoMenu==MODOANIMACION){
+            if(grado0){
+               if((porcentajeBanda>0.0 || compre_float(porcentajeBanda,0.0) ) && (porcentajeBanda+0.1<2.0 || compre_float(porcentajeBanda+0.1,2.0) )){
+                  porcentajeBanda+=0.1;
+                  cout<< "Actual valor grado 0 " << porcentajeBanda << endl;
+               }
+            }
+            if(grado1){
+               if((porcentajeEngranaje>0.0 || compre_float(porcentajeEngranaje,0.0) ) && (porcentajeEngranaje+0.1<2.0 || compre_float(porcentajeEngranaje+0.1,2.0) )){
+                  porcentajeEngranaje+=0.1;
+                  cout<< "Actual valor grado 1 " << porcentajeEngranaje << endl;
+               }
+            }
+            if(grado2){
+               if((porcentajePosicion>0.0 || compre_float(porcentajePosicion,0.0) ) && (porcentajePosicion+0.1<2.0 || compre_float(porcentajePosicion+0.1,2.0) )){
+                  porcentajePosicion+=0.1;
+                  cout<< "Actual valor grado 2 " << porcentajePosicion << endl;
+               }
+            }
+            
+         }
+      break;
+      case '-':
+         if(modoMenu==MODOANIMACION){
+            if(grado0){
+               if((porcentajeBanda-0.1>0.0 || compre_float(porcentajeBanda-0.1,0.0) ) && (porcentajeBanda<2.0 || compre_float(porcentajeBanda,2.0) )){
+                  porcentajeBanda-=0.1;
+                  cout<< "Actual valor grado 0 " << porcentajeBanda << endl;
+               }
+            }
+            if(grado1){
+               if((porcentajeEngranaje-0.1>0.0 || compre_float(porcentajeEngranaje-0.1,0.0) ) && (porcentajeEngranaje<2.0 || compre_float(porcentajeEngranaje,2.0) )){
+                  porcentajeEngranaje-=0.1;
+                  cout<< "Actual valor grado 1 " << porcentajeEngranaje << endl;
+               }
+            }
+            if(grado2){
+               if((porcentajePosicion-0.1>0.0 || compre_float(porcentajePosicion-0.1,0.0) ) && (porcentajePosicion<2.0 || compre_float(porcentajePosicion,2.0) )){
+                  porcentajePosicion-=0.1;
+                  cout<< "Actual valor grado 2 " << porcentajePosicion << endl;
+               }
+            }
+            
+         }
+      break;
+
 
             
    }

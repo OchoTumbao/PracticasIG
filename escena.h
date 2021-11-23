@@ -3,16 +3,13 @@
 
 #include "ejes.h"
 #include "malla.h"
-#include "cubo.h"
 #include "tetraedro.h"
 #include "objply.h"
 #include "objrevolucion.h"
-#include "cilindro.h"
-#include "cono.h"
-#include "esfera.h"
 #include "luces.h"
+#include "KlinkKlang.h"
 
-typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO,MODOLUZ} menu;
+typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO,MODOLUZ,MODOANIMACION} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
 typedef enum{CUBO,TETRAEDRO,BUSTO,P2,NO} objeto_a_mostrar;
 typedef enum{SMOOTH,FLAT} sombreado;
@@ -45,22 +42,9 @@ class Escena
    sombreado modo_sombreado=SMOOTH;
    // Objetos de la escena
    Ejes ejes;
-   Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
-   Tetraedro * tetraedro= nullptr ; // es importante inicializarlo a 'nullptr'
-   ObjRevolucion * peon= nullptr;
-   ObjPLY * ant=nullptr;
-   ObjPLY * coche=nullptr;
-   ObjPLY * busto=nullptr;
-   Cilindro * cilindro=nullptr;
-   Cilindro * cilindrox=nullptr;
-   Cilindro * cilindroz=nullptr;
-   Cono * cono=nullptr;
-   Esfera * esfera=nullptr;
-   Material * m1=nullptr;
-   Material * m2=nullptr;
-   Material * m3=nullptr;
    LuzDireccional * ld=nullptr;
    LuzPosicional * lp=nullptr;
+   KlinkKlang* kk=nullptr;
 
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
@@ -73,6 +57,13 @@ class Escena
    int variar_angulo=0;
    int luz1=0;
    int luz2=0;
+   float porcentajeBanda=1.0;
+   float porcentajeEngranaje=1.0;
+   float porcentajePosicion=1.0;
+   bool animacion=true;
+   bool grado0=false;
+   bool grado1=false;
+   bool grado2=false;
 
    
    public:
@@ -80,6 +71,7 @@ class Escena
     Escena();
 	void inicializar( int UI_window_width, int UI_window_height );
 	void redimensionar( int newWidth, int newHeight ) ;
+    void animarModeloJerarquico();
 
 	// Dibujar
 	void dibujar() ;
