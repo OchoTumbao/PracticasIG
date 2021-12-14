@@ -2,8 +2,9 @@
 #include "malla.h"
 #include "cubo.h"
 
-Cubo::Cubo(float lado)
+Cubo::Cubo(float lado,bool skybox,bool textured)
 {
+
 
    // inicializar la tabla de vértices
 
@@ -19,6 +20,8 @@ Cubo::Cubo(float lado)
    Tupla3f vf(lado/2,lado,-lado/2); // arriba derecha detras
    Tupla3f vg(-lado/2,lado,lado/2);// arriba izquierda delante
    Tupla3f vh(lado/2,lado,lado/2); // arriba derecha delante
+
+
    v.push_back(va); //0
    v.push_back(vb); //1
    v.push_back(vc); //2
@@ -27,37 +30,57 @@ Cubo::Cubo(float lado)
    v.push_back(vf); //5
    v.push_back(vg); //6
    v.push_back(vh); //7
-   Tupla3i tabc(0,1,2);
-   Tupla3i tbdc(1,3,2);
-   Tupla3i tchg(2,7,6);
-   Tupla3i tcdh(2,3,7);
-   Tupla3i tdfh(3,5,7);
-   Tupla3i tdbf(3,1,5);
-   Tupla3i tfba(5,1,0);
-   Tupla3i tfae(5,0,4);
-   Tupla3i tgac(6,0,2);
-   Tupla3i tgea(6,4,0);
-   Tupla3i theg(7,4,6);
-   Tupla3i thfe(7,5,4);
-   f.push_back(tabc);
-   f.push_back(tbdc);
-   f.push_back(tchg);
-   f.push_back(tcdh);
-   f.push_back(tdfh);
-   f.push_back(tdbf);
-   f.push_back(tfba);
-   f.push_back(tfae);
-   f.push_back(tgac);
-   f.push_back(tgea);
-   f.push_back(theg);
-   f.push_back(thfe);
+   v.push_back(va); //0
+   v.push_back(vb); //1
+   v.push_back(vc); //2
+   v.push_back(vd); //3
+   v.push_back(ve); //4
+   v.push_back(vf); //5
+   v.push_back(vg); //6
+   v.push_back(vh); //7
+   if(!skybox){
+   f.push_back({0,1,2});
+   f.push_back({1,3,2});
+   f.push_back({2,7,6});
+   f.push_back({2,3,7});
+   f.push_back({3,5,7});
+   f.push_back({3,1,5});
+   f.push_back({5,1,0});
+   f.push_back({5,0,4});
+   f.push_back({6,0,2});
+   f.push_back({6,4,0});
+   f.push_back({7,4,6});
+   f.push_back({7,5,4});
+   } else {
+
+   }
 
    rellenar_colores();
    calcular_normales();
 
 
-   
+if(textured){
 
+	ct.push_back({0.0f, 1.0f});
+	ct.push_back({1.0f, 1.0f});
+	ct.push_back({0.0f, 0.0f});
+	ct.push_back({1.0f, 0.0f});
+	ct.push_back({0.0f, 0.0f});
+	ct.push_back({1.0f, 0.0f});
+	ct.push_back({0.0f, 1.0f});
+	ct.push_back({1.0f, 1.0f});
+
+	ct.push_back({0.0f, 1.0f});
+	ct.push_back({1.0f, 1.0f});
+	ct.push_back({0.0f, 0.0f});
+	ct.push_back({1.0f, 0.0f});
+	ct.push_back({0.0f, 0.0f});
+	ct.push_back({1.0f, 0.0f});
+	ct.push_back({0.0f, 1.0f});
+	ct.push_back({1.0f, 1.0f});
+
+   
+}
 
 }
 

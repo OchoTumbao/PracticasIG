@@ -1,0 +1,201 @@
+g++ -c  -std=c++11 -g -I/usr/include -I.  -DLINUX escena.cc
+g++ -o pracs_exe  objrevolucion.o cilindro.o tetraedro.o cono.o escena.o practicas.o semiesfera.o ejes.o malla.o objply.o Klinkklang.o toroide.o luz.o textura.o cubo.o material.o esfera.o ply_reader.o jpg_readwrite.o jpg_imagen.o luces.o jpg_memsrc.o -ljpeg  -lGLEW -lGLU -lglut -lGL
+Enlazando para: Linux
+./pracs_exe
+archivo ply 'plys/Dalinar.ply' leido: núm. vértices == 11871, núm caras == 18630
+archivo ply 'plys/peon.ply' leido: núm. vértices == 11 (caras no leídas).
+He construido una textura su id es:-1
+El valor del id de la textura en el momento 1 es: -1El valor del id de la textura en el momento 2 es: -1El valor de la textura en el momento 7 es:-1
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+Entro AquiEl valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+Tecla pulsada: ''
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0
+El valor de la textura en el momento 6 es:0
+El valor del id de la textura en el momento 5 es: 0
+El valor del id de la textura en el momento 3 es: 0
+El valor del id de la textura en el momento 4 es: 0

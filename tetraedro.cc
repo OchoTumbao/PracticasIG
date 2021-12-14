@@ -36,6 +36,7 @@ Tetraedro::Tetraedro(float lado)
 
 
 rellenar_colores();
+calcular_normales();
 
 }
 

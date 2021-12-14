@@ -1,0 +1,6 @@
+textura.cc: In member function ‘void Cubemap::activar()’:
+textura.cc:130:61: error: ‘GL_INMEDIATE’ was not declared in this scope; did you mean ‘GL_INTERPOLATE’?
+  130 | glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_INMEDIATE);
+      |                                                             ^~~~~~~~~~~~
+      |                                                             GL_INTERPOLATE
+make: *** [makefile:41: textura.o] Error 1

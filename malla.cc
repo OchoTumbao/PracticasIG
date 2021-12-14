@@ -27,6 +27,11 @@ void Malla3D::draw_ModoInmediato(int modo_dibujo)
   // Inicializar Array Vertices
    glEnableClientState(GL_VERTEX_ARRAY);
    glEnableClientState(GL_NORMAL_ARRAY);
+   if(!ct.empty()){
+     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+     glTexCoordPointer(2, GL_FLOAT, 0, &ct[0]);
+     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+   }
    // Indicamos buffer de vertices
    glVertexPointer(3,GL_FLOAT,0,&v[0]);
    glNormalPointer(GL_FLOAT,0,&vn[0]);
@@ -53,6 +58,7 @@ void Malla3D::draw_ModoInmediato(int modo_dibujo)
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
+   
 }
 // -----------------------------------------------------------------------------
 // Visualización en modo diferido con 'glDrawElements' (usando VBOs)
@@ -95,6 +101,11 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
             }
          break;
       }
+   if (!ct.empty()){
+      if(id_vboct==0){
+         id_vboct=CrearVBO(GL_ARRAY_BUFFER,2*ct.size()*sizeof(float),&ct[0]);
+      }
+   }
       switch(modo_dibujo){
          case 0:
             glBindBuffer(GL_ARRAY_BUFFER,id_vbocf);
@@ -118,13 +129,21 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
    glBindBuffer(GL_ARRAY_BUFFER,0);
    glBindBuffer(GL_ARRAY_BUFFER,id_vbovn);
    glNormalPointer(GL_FLOAT,0,0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
    glEnableClientState(GL_VERTEX_ARRAY);
    glEnableClientState(GL_NORMAL_ARRAY);
+   if(!ct.empty()){
+   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+   glBindBuffer(GL_ARRAY_BUFFER,id_vboct);
+   glTexCoordPointer(2, GL_FLOAT, 0, 0);
+   glBindBuffer(GL_ARRAY_BUFFER,0);
+   }
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,id_vbof);
    glDrawElements(GL_TRIANGLES,f.size()*3,GL_UNSIGNED_INT,0);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
    glDisableClientState(GL_VERTEX_ARRAY);
    glDisableClientState(GL_NORMAL_ARRAY);
+   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
    glDisableClientState(GL_COLOR_ARRAY);
 
 
@@ -140,12 +159,17 @@ void Malla3D::draw_ModoDiferido(int modo_dibujo)
 void Malla3D::draw(int modo_diferido,int modo_dibujo)
 {
    // completar .....(práctica 1)
-   //m.aplicar();
+   m.aplicar();
+   if(!ct.empty()){
+      t->activar();
+   }
    if(modo_diferido==0){
       draw_ModoInmediato(modo_dibujo);
    } else{
       draw_ModoDiferido(modo_dibujo);
    }
+
+   glDisable(GL_TEXTURE_2D);
 
 
 }
@@ -180,6 +204,10 @@ void Malla3D::draw_ModoInmediatoAjedrez()
 
 void Malla3D::setMaterial(Material m){
    this->m=m;
+}
+
+void Malla3D::setTextura(std::string archivo){
+   t=new Textura(archivo);
 }
 
 void Malla3D::draw_ModoDiferidoAjedrez()
@@ -258,13 +286,18 @@ void Malla3D::calcular_normales(){
       Tupla3f v1=v.at(f.at(i)(1))-v.at(f.at(i)(0));
       Tupla3f v2=v.at(f.at(i)(2))-v.at(f.at(i)(0));
       Tupla3f res=v1.cross(v2);
+      if(res.lengthSq()>0){
       res=res.normalized();
       vn.at(f.at(i)(0))=vn.at(f.at(i)(0))+res;
       vn.at(f.at(i)(1))=vn.at(f.at(i)(1))+res;
       vn.at(f.at(i)(2))=vn.at(f.at(i)(2))+res;
+      }
+ 
    }
    for(int i=0;i<vn.size();i++){
+      if(vn.at(i).lengthSq()>0){
       vn.at(i)=vn.at(i).normalized();
+      }
    }
 }
 

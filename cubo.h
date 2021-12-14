@@ -25,7 +25,8 @@
 class Cubo : public Malla3D
 {
    public:
-   Cubo(float l=1) ;
+   Cubo(float l=1,bool skybox=false,bool textured=false);
+
 
 } ;
 

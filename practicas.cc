@@ -56,6 +56,7 @@ void change_window_size( int newWidth, int newHeight )
 
 void normal_keys( unsigned char tecla, int x, int y )
 {
+
 	int salir = 0;
 
    if ( escena!= nullptr )
@@ -103,6 +104,7 @@ void funcion_idle()
 
 int main( int argc, char **argv )
 {
+
    using namespace std ;
 
    // crear la escena (un puntero a la misma)

@@ -5,6 +5,11 @@ Esfera::Esfera(const int num_vert_perfil ,const int num_instancias_perf,const fl
 
 }
 
+Esfera::Esfera(const int num_vert_perfil ,const int num_instancias_perf,std::string textura,const float radio,int pivote,bool tapa_sup,bool tapa_inf) : ObjRevolucion(getPerfilOriginal(num_vert_perfil,radio,pivote),num_instancias_perf,textura,tapa_sup,tapa_inf,pivote){
+    // Construimos el perfil
+
+}
+
 std::vector<Tupla3f> Esfera::getPerfilOriginal(const int num_vert_perfil,const float radio,int pivote){
     std::vector<Tupla3f> perfil_original;
     float radiandivision=M_PI/(num_vert_perfil);

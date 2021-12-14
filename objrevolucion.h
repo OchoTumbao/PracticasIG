@@ -28,8 +28,13 @@ class ObjRevolucion : public Malla3D
        bool tapa_sup=true;
        bool tapa_inf=true;
        int ntapas=0;
+       int M;
+       int N;
+       std::vector<float> distancias_originales;
    ObjRevolucion(const std::string & archivo, int num_instancias, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
+   ObjRevolucion(const std::string & archivo, int num_instancias,const std::string & textura, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
    ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_instancias, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
+   ObjRevolucion(std::vector<Tupla3f> perfil_original, int num_instancias,const std::string & textura, bool tapa_supp=true, bool tapa_infp=true,int pivote=1) ;
    // dibuja el objeto en modo inmediato
    void draw_ModoInmediato(int modo_dibujo=0,bool tapas=true);
 
@@ -51,6 +56,8 @@ class ObjRevolucion : public Malla3D
    // está función llama a 'draw_ModoInmediato' (modo inmediato)
    // o bien a 'draw_ModoDiferido' (modo diferido, VBOs)
    void drawAjedrez(int modo_diferido=1,bool tapas=true) ;
+
+   void calcularCoordTextura();
 
 
 private:

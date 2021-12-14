@@ -12,7 +12,7 @@
 
 #include "aux.h"
 #include "material.h"
-
+#include "textura.h"
 // *****************************************************************************
 //
 // clase para objetos 3D (mallas indexadas)
@@ -47,6 +47,9 @@ class Malla3D
 
    void setMaterial(Material m);
 
+   void setTextura(std::string archivo);
+   Textura *t=nullptr;
+
    
 
    protected:
@@ -65,6 +68,7 @@ GLvoid * puntero_ram);
    std::vector<Tupla3f> color_chess1;
    std::vector<Tupla3f> color_chess2;
    std::vector<Tupla3f> vn;
+   std::vector<Tupla2f> ct;
    Tupla3f c_fill=Tupla3f(1.0,0.0,1.0);
    Tupla3f c_wire=Tupla3f(0.0,1.0,1.0);
    Tupla3f c_points=Tupla3f(0.0,0.0,0.0);
@@ -81,6 +85,7 @@ GLvoid * puntero_ram);
    GLuint id_vboac1=0;
    GLuint id_vboac2=0;
    GLuint id_vbovn=0;
+   GLuint id_vboct=0;
    Material m=Material(defaultmaterial,defaultmaterial,defaultmaterial,1.0);
 
 

@@ -15,4 +15,9 @@ class LuzPosicional : public Luz
 {
 public:
 LuzPosicional(Tupla3f posicion,GLenum id,Tupla4f colorAmbiente,Tupla4f colorDifuso, Tupla4f colorEspecular);
+void setPosicion(Tupla3f posicion);
+void setcolorAmbiente(Tupla4f colorAmbiente);
+void setcolorDifuso(Tupla4f colorDifuso);
+void setcolorEspecular(Tupla4f colorEspecular);
+
 };

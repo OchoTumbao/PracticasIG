@@ -12,5 +12,6 @@ GLenum id;
 Tupla4f colorAmbiente;
 Tupla4f colorDifuso;
 Tupla4f colorEspecular;
+bool active=false;
 
 };

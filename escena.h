@@ -6,8 +6,8 @@
 #include "tetraedro.h"
 #include "objply.h"
 #include "objrevolucion.h"
-#include "luces.h"
 #include "KlinkKlang.h"
+#include "skybox.h"
 
 typedef enum {NADA, SELTAPAS,SELVISUALIZACION,SELDIBUJADO,MODOLUZ,MODOANIMACION} menu;
 typedef enum{INMEDIATO,DIFERIDO} modo_dibujado;
@@ -45,6 +45,12 @@ class Escena
    LuzDireccional * ld=nullptr;
    LuzPosicional * lp=nullptr;
    KlinkKlang* kk=nullptr;
+   Magnemite *mm=nullptr;
+   ObjPLY * Dalinar=nullptr;
+    ObjRevolucion * pokeball=nullptr;
+    Cubo * suelo=nullptr;
+    Tetraedro * piramide=nullptr;
+    Skybox * skybox=nullptr;
 
    modo_dibujado modo_d=DIFERIDO;
    objeto_a_mostrar dibujo=NO;
@@ -52,18 +58,21 @@ class Escena
    int flag_lines=0;
    int flag_fill=1;
    int flag_chess=0;
-   int flag_luz=0;
+   int flag_luz=1;
    bool tapas=true;
    int variar_angulo=0;
-   int luz1=0;
-   int luz2=0;
+   int luz1=1;
+   int luz2=1;
    float porcentajeBanda=1.0;
    float porcentajeEngranaje=1.0;
    float porcentajePosicion=1.0;
+   float porcentajePokeball=1.0;
    bool animacion=true;
    bool grado0=false;
    bool grado1=false;
    bool grado2=false;
+   bool lanzar_pokeballs=false;
+   bool setup_inicial=true;
 
    
    public:
@@ -81,6 +90,7 @@ class Escena
 	// Interacción con la escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
+
 
 };
 #endif

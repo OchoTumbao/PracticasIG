@@ -30,10 +30,30 @@ Escena::Escena()
    Tupla4f luz1s(1.0,1.0,1.0,1.0);
    Tupla4f verde(0.0,0.5,0.0,0.5);
    Tupla2f angulo(0.0,0.0);
-   Tupla3f posicion(0.0,150.0,0.0);
+   Tupla3f posicion(0.0,550.0,0.0);
    ld= new LuzDireccional(angulo,GL_LIGHT0,verde,verde,verde);
    lp= new LuzPosicional(posicion,GL_LIGHT1,luz1a,luz1d,luz1s);
+   lp->habilitar();
    kk= new KlinkKlang();
+   mm= new Magnemite();
+   pokeball= new Esfera(100,100,"text-earth.jpg",30,1,true,true);
+   //Dalinar= new ObjPLY("plys/Dalinar.ply");
+   skybox= new Skybox("text-desert.jpg",2000);
+   suelo= new Cubo(2000,false,true);
+   piramide=new Tetraedro(100);
+   suelo->setTextura("text-sand3.jpg");
+    Tupla4f Cromoa(0.25,0.25,0.25,1.0);
+    Tupla4f CromoD(0.4,0.4,0.4,1.0);
+    Tupla4f CromoE(0.774597,0.774597,0.774597,1.0);
+    float Cromob=76.8;
+
+    Material* m1=new Material(CromoD,CromoE,Cromoa,Cromob);
+    skybox->setMaterial(*m1);
+    suelo->setMaterial(*m1);
+   pokeball->setMaterial(*m1);
+
+
+   
 }
 
 //**************************************************************************
@@ -60,6 +80,13 @@ void Escena::animarModeloJerarquico(){
    kk->modifica_anguloBanda(porcentajeBanda);
    kk->modifica_anguloEngranajes(porcentajeEngranaje);
    kk->modifica_Posicion(porcentajePosicion);
+   mm->modifica_posicion(1.0);
+   mm->modifica_anguloIman(1.0);
+   skybox->animarLuces(1.0);
+   }
+   if(lanzar_pokeballs){
+   kk->modifica_PosicionPokeball(1.0);
+   mm->modifica_posicionPokeball(1.0);
    }
 }
 
@@ -74,32 +101,147 @@ void Escena::dibuja_escena(int modo_diferido,int modo_dibujo,bool tapas){
    switch (modo_dibujo){
       case 2:
          glPolygonMode(GL_FRONT_AND_BACK,GL_POINT);
-         kk->draw(modo_diferido,modo_dibujo);
+         glPushMatrix();
+         glTranslatef(0,-200,-300);
+         glPushMatrix();
+         skybox->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,-1900,0);
+         suelo->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glRotatef(180,0,1,0);
+         glTranslatef(0,115,-400);
+         if(lanzar_pokeballs)
+            kk->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,115,-800);
+         if(lanzar_pokeballs)
+            mm->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+
+         glPopMatrix();
+         glPopMatrix();
+         glPopMatrix();
          break;
       case 1:
          glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-         kk->draw(modo_diferido,modo_dibujo);
-         break;
+         glPushMatrix();
+         glTranslatef(0,-200,-300);
+         glPushMatrix();
+         skybox->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,-1900,0);
+         suelo->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glRotatef(180,0,1,0);
+         glTranslatef(0,115,-400);
+         if(lanzar_pokeballs)
+            kk->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,115,-800);
+         if(lanzar_pokeballs)
+            mm->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+
+         glPopMatrix();
+         glPopMatrix();
+         glPopMatrix();
       case 0:
          glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-         kk->draw(modo_diferido,modo_dibujo);
+         glPushMatrix();
+         glTranslatef(0,-200,-300);
+         glPushMatrix();
+         skybox->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,-1900,0);
+         suelo->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glRotatef(180,0,1,0);
+         glTranslatef(0,115,-400);
+         if(lanzar_pokeballs)
+            kk->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,115,-800);
+         if(lanzar_pokeballs)
+            mm->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+
+         glPopMatrix();
+         glPopMatrix();
+         glPopMatrix();
+
          break;
    default:
       glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-      kk->draw(modo_diferido,modo_dibujo);
-      break;
+         glPushMatrix();
+         glTranslatef(0,-200,-300);
+         glPushMatrix();
+         skybox->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,-1900,0);
+         suelo->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glRotatef(180,0,1,0);
+         glTranslatef(0,115,-400);
+         if(lanzar_pokeballs)
+            kk->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,115,-800);
+         if(lanzar_pokeballs)
+            mm->draw(modo_diferido,modo_dibujo);
+         glPopMatrix();
+
+         glPopMatrix();
+         glPopMatrix();
+         glPopMatrix();
    }
 
 }
 
 void Escena::dibuja_escena_ajedrez(int modo_diferido,bool tapas){
    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
-   kk->drawAjedrez(modo_diferido);
+         glPushMatrix();
+         glTranslatef(0,-200,-300);
+         glPushMatrix();
+         skybox->drawAjedrez(modo_diferido);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,-1900,0);
+         suelo->drawAjedrez(modo_diferido);
+         glPopMatrix();
+         glPushMatrix();
+         glRotatef(180,0,1,0);
+         glTranslatef(0,115,-400);
+         if(lanzar_pokeballs)
+            kk->drawAjedrez(modo_diferido);
+         glPopMatrix();
+         glPushMatrix();
+         glTranslatef(0,115,-800);
+         if(lanzar_pokeballs)
+            mm->drawAjedrez(modo_diferido);
+         glPopMatrix();
+
+         glPopMatrix();
+         glPopMatrix();
+         glPopMatrix();
 }
 
 void Escena::dibujar()
 {
    glEnable(GL_CULL_FACE);
+   glEnable(GL_TEXTURE_CUBE_MAP);
    glEnable(GL_NORMALIZE);
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
@@ -110,6 +252,11 @@ void Escena::dibujar()
       case DIFERIDO:
           if(flag_luz==1){
              glEnable(GL_LIGHTING);
+             if(setup_inicial){
+             skybox->habilitarLuzLuna();
+             skybox->habilitarLuzSol();
+             setup_inicial=false;
+             }
              switch (modo_sombreado)
              {
              case SMOOTH:
@@ -123,7 +270,7 @@ void Escena::dibujar()
              default:
                 glShadeModel(GL_SMOOTH);
                 break;
-             }
+             } 
                 ld->activar();
                 lp->activar();
              dibuja_escena(1,0,tapas);
@@ -297,6 +444,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
             modoMenu=MODOLUZ;
             cout << "MODO LUZ ACTIVADO" << endl;
             }
+
+         if(modoMenu==MODOANIMACION){
+            cout << "Lanzando Pokeballs" << endl;
+            lanzar_pokeballs=true;
+         }
          break;
        case 'S':
          if(modoMenu==SELVISUALIZACION){
@@ -392,7 +544,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          break;
       case '2':
          if(modoMenu==MODOLUZ){
-            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+            cout << "Activando luz 2" << endl;
+            skybox->habilitarLuzSol();
          }
          if (modoMenu==MODOANIMACION){
             if(grado2){
@@ -405,7 +558,8 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       break;
       case '3':
          if(modoMenu==MODOLUZ){
-            cout << "Actualmente no hay mas de dos luces implementadas" << endl;
+            cout << "Activando luz 3" << endl;
+            skybox->habilitarLuzLuna();
          }
       break;
       case '4':

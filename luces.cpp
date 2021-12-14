@@ -50,4 +50,22 @@ LuzPosicional::LuzPosicional(Tupla3f posicion,GLenum id,Tupla4f colorAmbiente,Tu
     this->colorAmbiente=colorAmbiente;
     this->colorDifuso=colorDifuso;
     this->colorEspecular=colorEspecular;
+    glEnable(id);
+}
+
+void LuzPosicional::setPosicion(Tupla3f posicion){
+    Tupla4f pos(posicion(0),posicion(1),posicion(2),1.0);
+    this->posicion=pos;
+}
+
+void LuzPosicional::setcolorAmbiente(Tupla4f colorAmbiente){
+    this->colorAmbiente=colorAmbiente;
+}
+
+void LuzPosicional::setcolorDifuso(Tupla4f colorDifuso){
+    this->colorDifuso=colorDifuso;
+}
+
+void LuzPosicional::setcolorEspecular(Tupla4f colorEspecular){
+    this->colorEspecular=colorEspecular;
 }
